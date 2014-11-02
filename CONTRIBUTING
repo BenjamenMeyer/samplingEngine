@@ -1,0 +1,21 @@
+To contribute you must agree to the use of the LGPL license.
+
+The public interface for this library is contained under "public".
+All headers that will have a bound contract for integration into
+other systems must be contained in this space. These headers must
+be self contained and not reference any headers other than those
+utilized by the C language and possibly the C++ language.
+
+The internal interfaces for this library are contained under "include".
+They may including references to the public interfaces and otherwise
+have no restrictions.
+
+Headers do not contain implementation - e.g. functions.
+Helper functions (e.g simple C Macros or C++ inline functions) may
+be contained here; but must be very limited in ability.
+For example, the NORMALIZED_TO_SCALAR C Macro is a good function
+to have here. Anything more complex should have its interface
+defined in the headers, and an implementation defined under 'src'.
+
+The source is included under 'src'. All implementation could must
+go here.

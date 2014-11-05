@@ -1,45 +1,62 @@
 #ifndef ENGINE_CHANNEL_H__
 #define ENGINE_CHANNEL_H__
 
-#include <stdint.h>
+#include <cstdint>
+#include <string>
+#include <list>
 
-struct channel_config
-{
-    uint16_t channel_index;    // channel index
-    uint16_t byte_count;       // number of bytes composing the channel data
-    uint16_t channel_type;     // channel type identifier
+namespace samplingEngine
+    {
+    namespace channels
+        {
+        struct channel_config
+            {
+            // offset in data array for the channel data 
+            uint16_t data_offset;
+            // number of bytes composing the channel data
+            uint16_t byte_count;
+            // channel type identifier
+            uint16_t channel_type;
 
-    // channel_units is used to ensure that any required
-    // conversions (e.g mm -> 100ths of mm) is managed propertly
-    // only metric units are permissible
-    uint16_t channel_units;    // channel units identifier
+            // channel units identifier
+            // channel_units is used to ensure that any required
+            // conversions (e.g mm -> 100ths of mm) is managed propertly
+            // only metric units are permissible
+            uint16_t channel_units;
 
-    // All channel data is stored as integer data
-    uint16_t factor;           // scalar<->normalization factor
+            // scalar<->normalization factor
+            // All channel data is stored as integer data
+            uint16_t factor;
 
-    // For simplicity, the various textual fields are stored
-    // as a single text string in a JSON format.
-    // At minimum, the JSON dict should contain:
-    // {
-    //    'name': '<human readable channel name>'
-    //    'units': '<human readable channel units>'
-    //    'description': '<human readable description of the channel>'
-    // }
-    //
-    uint16_t json_data_length; // JSON dict containing the various text
-    uint8_t  json[1];          // json dict text
-};
+            // JSON dict containing the various text
+            // For simplicity, the various textual fields are stored
+            // as a single text string in a JSON format.
+            // At minimum, the JSON dict should contain:
+            // {
+            //    'name': '<human readable channel name>'
+            //    'units': '<human readable channel units>'
+            //    'description': '<human readable description of the channel>'
+            // }
+            //
+            std::string json_data;
+            };
 
-struct channels
-{
-    uint16_t channel_count;   // total number of channels
-    struct channel_config config[1]; // array of channels
-};
+        typedef std::list<struct channel_config> channelList;
 
-// Channel Normalized Data to Scalar Data
-#define NORMALIZED_TO_SCALAR(d, f) (d*f)
+        // Channel Normalized Data to Scalar Data
+        template <class T>
+        inline T NORMALIZED_TO_SCALAR(T d, T f)
+            {
+            return T(d*f);
+            }
 
-// Channel Scalar Data to Noramlized Data
-#define SCALAR_TO_NORMALIZED(d, f) (d/f)
+        // Channel Scalar Data to Noramlized Data
+        template <class T>
+        inline T SCALAR_TO_NORMALIZED(T d, T f)
+            {
+            return T(d/f);
+            }
+        }
+    }
 
 #endif //ENGINE_CHANNEL_H__

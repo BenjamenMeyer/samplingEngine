@@ -1,100 +1,74 @@
 #ifndef ENGINE_FILTERS_AVERAGING_H__
 #define ENGINE_FILTERS_AVERAGING_H__
 
-#include <stdint.h>
+#include <cstdint>
+#include <deque>
 
-#define AVERAGING_FILTER_TYPE_NONE		0x00000000
-#define AVERAGING_FILTER_TYPE_INT_8		0x00000001
-#define AVERAGING_FILTER_TYPE_INT_16	0x00000002
-#define AVERAGING_FILTER_TYPE_INT_32	0x00000004
-#define AVERAGING_FILTER_TYPE_INT_64	0x00000008
-
-#define AVERAGING_FILTER_TYPE_UNSIGNED_MASK	0x80000000
-
-#define AVERAGING_FILTER_TYPE_UINT_8	(AVERAGING_FILTER_TYPE_UNSIGNED_MASK|AVERAGING_FILTER_TYPE_INT_8)
-#define AVERAGING_FILTER_TYPE_UINT_16	(AVERAGING_FILTER_TYPE_UNSIGNED_MASK|AVERAGING_FILTER_TYPE_INT_16)
-#define AVERAGING_FILTER_TYPE_UINT_32	(AVERAGING_FILTER_TYPE_UNSIGNED_MASK|AVERAGING_FILTER_TYPE_INT_32)
-#define AVERAGING_FILTER_TYPE_UINT_64	(AVERAGING_FILTER_TYPE_UNSIGNED_MASK|AVERAGING_FILTER_TYPE_INT_64)
-
-struct averaging_filter
-{
-	uint64_t filter_length;		// length of the data buffer
-	uint16_t filter_type;		// type of data buffer
-	void* filter_buffer;		// data buffer
-	void* filter_rolling_sum;	// rolling summation of the data
-	struct indexes
+namespace filters
 	{
-		uint64_t start;		// starting index
-		uint64_t end;		// ending index
-	} index;				// round-robin index in the buffer
-};
+	template <class T>
+	class AveragingFilter
+		{
+		public:
+			AveragingFilter()
+				{
+				length = 0;
+				}
+			~AveragingFilter()
+				{
+				}
 
+			void initialize()
+				{
+				length = _length;
+				sum = T(0);
+				values.clear();
+				}
+			void destroy()
+				{
+				sum = T(0);
+				values.clear();
+				}
 
-//
-// averaging_filter_initialize()
-//
-// Parameters:
-//	_filter - pointer to struct averaging filter - filter to be initialized
-//	_filter_type - type of filter to initialize, see AVERAGING_FILTER_TYPE_* for acceptable values
-//
-// Return Value:
-//	if negative, error value
-//	if zero, success
-//
-int32_t averaging_filter_initialize(struct averaging_filter* _filter, uint16_t _filter_type, uint64_t _filter_length);
+			void apply(T _value)
+				{
+				sum += _value;
+				values.push_back(_value);
 
-//
-// averaging_filter_destroy()
-//
-// Parameters:
-//	_filter - pointer to struct averaging filter - filter to be destroyed
-//
-// Return Value:
-//	if negaive, error value
-//	if zero, success
-//
-int32_t averaging_filter_destroy(struct averaging_filter* _filter);
+				if (values.length() > length)
+					{
+					sum -= values.front();
+					values.pop_front();
+					}
+				}
+			T get() const
+				{
+				return (sum / length);
+				}
 
-//
-// averaging_filter_apply()
-//
-// Parameters:
-//	_filter - pointer to struct averaging_filter to apply the value to
-//	_value - value to apply
-//
-// Return Value:
-//	if negative, error value
-//	if zero, success
-//
-//
-int32_t averaging_filter_apply_int8(struct averaging_filter* _filter, int8_t _value);
-int32_t averaging_filter_apply_in16(struct averaging_filter* _filter, int16_t _value);
-int32_t averaging_filter_apply_int32(struct averaging_filter* _filter, int32_t _value);
-int32_t averaging_filter_apply_int64(struct averaging_filter* _filter, int64_t _value);
-int32_t averaging_filter_apply_uint8(struct averaging_filter* _filter, uint8_t _value);
-int32_t averaging_filter_apply_uint16(struct averaging_filter* _filter, uint16_t _value);
-int32_t averaging_filter_apply_uint32(struct averaging_filter* _filter, uint32_t _value);
-int32_t averaging_filter_apply_uint64(struct averaging_filter* _filter, uint64_t _value);
+			size_t getLength() const
+				{
+				return length;
+				}
 
-//
-// averaging_filter_get_value()
-//
-// Parameters:
-//	_filter - pointer to struct averaging_filter to apply the value to
-//	_value - pointer where to store the value
-//
-// Return Value:
-//	if negative, error value
-//	if zero, success
-//
-//
-int32_t averaging_filter_get_value_int8(struct averaging_filter* _filter, int8_t* _value);
-int32_t averaging_filter_get_value_int16(struct averaging_filter* _filter, int16_t* _value);
-int32_t averaging_filter_get_value_int32(struct averaging_filter* _filter, int32_t* _value);
-int32_t averaging_filter_get_value_int64(struct averaging_filter* _filter, int64_t* _value);
-int32_t averaging_filter_get_value_uint8(struct averaging_filter* _filter, uint8_t* _value);
-int32_t averaging_filter_get_value_uint16(struct averaging_filter* _filter, uint16_t* _value);
-int32_t averaging_filter_get_value_uint32(struct averaging_filter* _filter, uint32_t* _value);
-int32_t averaging_filter_get_value_uint64(struct averaging_filter* _filter, uint64_t* _value);
+		protected:
+			typedef std::deque<T> datalist;
+
+			size_t length;
+			T sum;
+			datalist values;
+		};
+
+	typedef AveragingFilter<int8_t> AveragingFilterInt8;
+	typedef AveragingFilter<uint8_t> AveragingFilterUInt8;
+	typedef AveragingFilter<int16_t> AveragingFilterInt16;
+	typedef AveragingFilter<uint16_t> AveragingFilterUInt16;
+	typedef AveragingFilter<int32_t> AveragingFilterInt32;
+	typedef AveragingFilter<uint32_t> AveragingFilterUInt32;
+	typedef AveragingFilter<int64_t> AveragingFilterInt64;
+	typedef AveragingFilter<uint64_t> AveragingFilterUInt64;
+	typedef AveragingFilter<float> AveragingFilterFloat;
+	typedef AveragingFilter<double> AveragingFilterDouble;
+	}
 
 #endif //ENGINE_FILTERS_AVERAGING_H__

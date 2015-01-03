@@ -15,6 +15,59 @@ namespace samplingEngine
     class samplingEngine
         {
         public:
+			enum sampleEngineState
+				{
+				// Sampling Engine has not been initialized with a configuration yet
+				SAMPLE_ENGINE_NOT_INITIALIZED = 0,
+				// Sampling Engine has been initialized and is ready for use
+				SAMPLE_ENGINE_INITIALIZED = 1,
+				// Sampling Engine is in diagnostic mode
+				SAMPLE_ENGINE_DIAGNOSTIC_MODE = 2,
+				// Sampling Engine is in calibration mode
+				SAMPLE_ENGINE_CALIBRATION_MODE = 4,
+				// Sampling Engine is in operations mode
+				SAMPLE_ENGINE_OPERATION_MODE = 8,
+				// Sampling Engine is starting up for operation, priming filters, etc
+				SAMPLE_ENGINE_OPERATIONAL_STARTUP = 16,
+				// Sampling Engine is ready for data collection output
+				SAMPLE_ENGINE_OPERATIONAL_READY = 32,
+				// Sampling Engine is being shutdown
+				SAMPLE_ENGINE_OPERATIONAL_SHUTDOWN = 64,
+
+				// Sampling Engine is shutting down for destruction
+				SAMPLE_ENGINE_DESTRUCTION = 0xFFFFFFFFFFFFFFFF,
+
+				// The values below are convenience names
+				SAMPLE_ENGINE_IN_STANDBY = SAMPLE_ENGINE_INITIALIZED,
+
+				// Operational Modes:
+				//	Startup - filters not yet primed, some filters may be ready, some not
+				//  Ready - all filters primed and ready
+				//  Shutdown - pushing data out, some filters may be ready, some not
+				SAMPLE_ENGINE_IN_OPERATION = SAMPLE_ENGINE_INITIALIZED|SAMPLE_ENGINE_OPERATION_MODE,
+				SAMPLE_ENGINE_IN_OPERATION_STARTUP = SAMPLE_ENGINE_IN_OPERATION|SAMPLE_ENGINE_OPERATIONAL_STARTUP,
+				SAMPLE_ENGINE_IN_OPERATION_READY = SAMPLE_ENGINE_IN_OPERATION|SAMPLE_ENGINE_OPERATIONAL_READY,
+				SAMPLE_ENGINE_IN_OPERATION_SHUTDOWN = SAMPLE_ENGINE_IN_OPERATION|SAMPLE_ENGINE_OPERATIONAL_SHUTDOWN,
+
+				// Diagnostics Modes:
+				//	Startup - filters not yet primed, some filters may be ready, some not
+				//  Ready - all filters primed and ready
+				//  Shutdown - pushing data out, some filters may be ready, some not
+				SAMPLE_ENGINE_IN_DIAGNOSTICS = SAMPLE_ENGINE_INITIALIZED|SAMPLE_ENGINE_DIAGNOSTIC_MODE,
+				SAMPLE_ENGINE_IN_DIAGNOSTICS_STARTUP = SAMPLE_ENGINE_IN_DIAGNOSTICS|SAMPLE_ENGINE_OPERATIONAL_STARTUP,
+				SAMPLE_ENGINE_IN_DIAGNOSTICS_READY = SAMPLE_ENGINE_IN_DIAGNOSTICS|SAMPLE_ENGINE_OPERATIONAL_READY,
+				SAMPLE_ENGINE_IN_DIAGNOSTICS_SHUTDOWN = SAMPLE_ENGINE_IN_DIAGNOSTICS|SAMPLE_ENGINE_OPERATIONAL_SHUTDOWN,
+
+				// Calibration Modes:
+				//	Startup - filters not yet primed, some filters may be ready, some not
+				//  Ready - all filters primed and ready
+				//  Shutdown - pushing data out, some filters may be ready, some not
+				SAMPLE_ENGINE_IN_CALIBRATION = SAMPLE_ENGINE_INITIALIZED|SAMPLE_ENGINE_CALIBRATION_MODE,
+				SAMPLE_ENGINE_IN_CALIBRATION_STARTUP = SAMPLE_ENGINE_IN_CALIBRATION|SAMPLE_ENGINE_OPERATIONAL_STARTUP,
+				SAMPLE_ENGINE_IN_CALIBRATION_READY = SAMPLE_ENGINE_IN_CALIBRATION|SAMPLE_ENGINE_OPERATIONAL_READY,
+				SAMPLE_ENGINE_IN_CALIBRATION_SHUTDOWN = SAMPLE_ENGINE_IN_CALIBRATION|SAMPLE_ENGINE_OPERATIONAL_SHUTDOWN,
+				};
+
             samplingEngine();
             ~samplingEngine();
 
@@ -32,7 +85,21 @@ namespace samplingEngine
             //
             static const std::string getErrorMessage(uint32_t _error_code);
 
-            //
+			//
+			// getState()
+			//
+			// Purpose:
+			//	  Provide a means to determine the current state of the samplingEngine
+			//
+			// Parameters:
+			//    n/a
+			//
+			// Returns:
+			//    A bit-map of the samplingEngine state. Each bit maps to a value in the enum
+			//    samplineEngine::samplingEngine::sampleEngineState.
+			uint32_t getState() const;
+
+			//
             // initialize()
             //
             // Purpose:
@@ -60,7 +127,7 @@ namespace samplingEngine
             // Returns:
             //    integer value containing either of the following:
             //        if negative - error code
-            //              if zero or postive - number of records available to be retrieved 
+            //              if zero or postive - number of records available to be retrieved
             //
             int32_t shutdown();
 
@@ -92,9 +159,9 @@ namespace samplingEngine
             // Returns:
             //    integer value containing either of the following:
             //        if negative - error code
-            //              if zero or postive - number of records available to be retrieved 
+            //              if zero or postive - number of records available to be retrieved
             //
-            int32_t processRecord(const struct records::time_record*& _record); 
+            int32_t processRecord(const struct records::time_record*& _record);
 
             //
             // getRecord()
@@ -114,14 +181,22 @@ namespace samplingEngine
             //        to pass the record out of the processing engine. Memory that is allocated will be reclaimed when
             //        the next record is processed by engine_process_record()
             //
-            records::recordType getRecordType() const;
+			records::recordType getTimeRecordType() const;
+            records::recordType getDistanceRecordType() const;
             int32_t getDataRecord(struct records::distance_record*& _record);
             int32_t getStatusRecord(struct records::status_record*& _record);
             int32_t getTimeRecord(struct records::time_record*& _record);
 
         protected:
             struct config::engineConfiguration configuration;
-            
+
+			void setState(sampleEngineState _state);
+			void enableState(sampleEngineState _state_bit);
+			void disableState(sampleEngineState _state_bit);
+			bool isStateSet(sampleEngineState _state_bit) const;
+
+		private:
+			uint32_t state;
         };
     }
 

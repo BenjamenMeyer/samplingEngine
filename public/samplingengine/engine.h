@@ -3,12 +3,12 @@
 
 #include <cstdint>
 
-#include "time_record.h"
-#include "configuration.h"
-#include "distance_record.h"
-#include "record_type.h"
-#include "status_record.h"
-#include "configuration.h"
+#include <samplingengine/time_record.h>
+#include <samplingengine/configuration.h>
+#include <samplingengine/distance_record.h>
+#include <samplingengine/record_type.h>
+#include <samplingengine/status_record.h>
+#include <samplingengine/configuration.h>
 
 namespace samplingEngine
     {
@@ -44,7 +44,7 @@ namespace samplingEngine
             // Returns:
             //    integer value specifying the error code
             //
-            int32_t initialize(const struct config::engineConfiguration& _configuration);
+            int32_t initialize(const struct samplingEngine::config::engineConfiguration& _configuration);
 
             //
             // shutdown()
@@ -94,7 +94,7 @@ namespace samplingEngine
             //        if negative - error code
             //              if zero or postive - number of records available to be retrieved 
             //
-            int32_t processRecord(const struct records::time_record*& _record); 
+            int32_t processRecord(const struct samplingEngine::records::time_record*& _record); 
 
             //
             // getRecord()
@@ -114,12 +114,13 @@ namespace samplingEngine
             //        to pass the record out of the processing engine. Memory that is allocated will be reclaimed when
             //        the next record is processed by engine_process_record()
             //
-            records::recordType getRecordType() const;
-            int32_t getDataRecord(struct records::distance_record*& _record);
-            int32_t getStatusRecord(struct records::status_record*& _record);
+            samplingEngine::records::recordType getRecordType() const;
+            int32_t getDataRecord(struct samplingEngine::records::distance_record*& _record);
+            int32_t getStatusRecord(struct samplingEngine::records::status_record*& _record);
+            int32_t getTimeRecord(struct samplingEngine::records::time_record*& _record);
 
         protected:
-            struct config::engineConfiguration configuration;
+            struct samplingEngine::config::engineConfiguration configuration;
             
         };
     }

@@ -3,9 +3,9 @@
 
 #include <cstdint>
 
-#include "time_channels.h"
-#include "distance_channels.h"
-#include "channel.h"
+#include <samplingengine/time_channels.h>
+#include <samplingengine/distance_channels.h>
+#include <samplingengine/channel.h>
 
 namespace samplingEngine
     {

@@ -1,7 +1,7 @@
-#ifndef ENGINE_STATUS_RECORD_H__
-#define ENGINE_STATUS_RECORD_H__
+#ifndef SAMPLING_ENGINE_STATUS_RECORD_H__
+#define SAMPLING_ENGINE_STATUS_RECORD_H__
 
-#include <cstdint>
+#include <stdint.h>
 
 namespace samplingEngine
     {
@@ -64,4 +64,4 @@ namespace samplingEngine
         }
     }
 
-#endif //ENGINE_STATUS_RECORD_H__
+#endif //SAMPLING_ENGINE_STATUS_RECORD_H__

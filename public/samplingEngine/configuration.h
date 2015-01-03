@@ -1,11 +1,11 @@
-#ifndef ENGINE_CONFIGURATION_H__
-#define ENGINE_CONFIGURATION_H__
+#ifndef SAMPLING_ENGINE_CONFIGURATION_H__
+#define SAMPLING_ENGINE_CONFIGURATION_H__
 
-#include <cstdint>
+#include <stdint.h>
 
-#include <samplingengine/time_channels.h>
-#include <samplingengine/distance_channels.h>
-#include <samplingengine/channel.h>
+#include <samplingEngine/time_channels.h>
+#include <samplingEngine/distance_channels.h>
+#include <samplingEngine/channel.h>
 
 namespace samplingEngine
     {
@@ -48,4 +48,4 @@ namespace samplingEngine
         }
     }
 
-#endif //ENGINE_CONFIGURATION_H__
+#endif //SAMPLING_ENGINE_CONFIGURATION_H__

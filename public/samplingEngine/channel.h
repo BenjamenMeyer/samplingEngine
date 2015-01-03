@@ -1,7 +1,8 @@
-#ifndef ENGINE_CHANNEL_H__
-#define ENGINE_CHANNEL_H__
+#ifndef SAMPLING_ENGINE_CHANNEL_H__
+#define SAMPLING_ENGINE_CHANNEL_H__
 
-#include <cstdint>
+#include <stdint.h>
+
 #include <string>
 #include <list>
 
@@ -59,4 +60,4 @@ namespace samplingEngine
         }
     }
 
-#endif //ENGINE_CHANNEL_H__
+#endif //SAMPLING_ENGINE_CHANNEL_H__

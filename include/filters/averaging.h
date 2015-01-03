@@ -1,5 +1,5 @@
-#ifndef ENGINE_FILTERS_AVERAGING_H__
-#define ENGINE_FILTERS_AVERAGING_H__
+#ifndef SAMPLING_ENGINE_FILTERS_AVERAGING_H__
+#define SAMPLING_ENGINE_FILTERS_AVERAGING_H__
 
 #include <cstdint>
 #include <deque>
@@ -71,4 +71,4 @@ namespace filters
 	typedef AveragingFilter<double> AveragingFilterDouble;
 	}
 
-#endif //ENGINE_FILTERS_AVERAGING_H__
+#endif //SAMPLING_ENGINE_FILTERS_AVERAGING_H__

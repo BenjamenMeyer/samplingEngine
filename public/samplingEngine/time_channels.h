@@ -1,13 +1,13 @@
-#ifndef ENGINE_DISTANCE_CHANNELS_H__
-#define ENGINE_DISTANCE_CHANNELS_H__
+#ifndef SAMPLING_ENGINE_TIME_CHANNELS_H__
+#define SAMPLING_ENGINE_TIME_CHANNELS_H__
 
 namespace samplingEngine
     {
     namespace channels
         {
-        namespace distance
+        namespace time
             {
-            enum distanceChannels
+            enum timeChannels
                 {
                 INVALID_CHANNEL=0,
                 TEST_CHANNEL_SINE_WAVE,
@@ -17,4 +17,4 @@ namespace samplingEngine
         }
     }
 
-#endif //ENGINE_DISTANCE_CHANNELS_H__
+#endif //SAMPLING_ENGINE_TIME_CHANNELS_H__

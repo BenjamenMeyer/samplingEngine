@@ -1,5 +1,5 @@
-#ifndef ENGINE_RECORD_TYPE_H__
-#define ENGINE_RECORD_TYPE_H__
+#ifndef SAMPLING_ENGINE_RECORD_TYPE_H__
+#define SAMPLING_ENGINE_RECORD_TYPE_H__
 
 namespace samplingEngine
     {
@@ -15,4 +15,4 @@ namespace samplingEngine
         }
     }
 
-#endif //ENGINE_RECORD_TYPE_H__
+#endif //SAMPLING_ENGINE_RECORD_TYPE_H__

@@ -18,7 +18,46 @@ samplingEngine::~samplingEngine()
  *****************************/
 /* static */ const std::string  samplingEngine::getErrorMessage(uint32_t _error_code)
 	{
-	return "UNKNOWN ERROR";
+	std::string returnValue = "UNKNOWN ERROR";
+
+	// if it's an error code that we returned, then convert it to a normal error code
+	// that can be used for lookup. Otherwise, assume the caller already did the
+	// conversion and try to just look it up
+	uint32_t actual_error = SAMPLING_ENGINE_GET_ERROR_CODE(_error_code);
+	if (SAMPLING_ENGINE_IS_ERROR_CODE(_error_code))
+		{
+		actual_error = SAMPLING_ENGINE_GET_ERROR_CODE(_error_code);
+		}
+	
+	// lookup and make the conversion
+	switch (actual_error)
+		{
+		default:
+			//do nothing
+			break;
+		case SAMPLING_ENGINE_ERROR_SUCCESS:
+			returnValue = "Operation Successful";
+			break;
+		case SAMPLING_ENGINE_ERROR_BAD_PARAMETER:
+			returnValue = "Bad Parameter to function call";
+			break;
+		case SAMPLING_ENGINE_ERROR_NOT_INITIALIZED:
+			returnValue = "Sampling Engine has not yet been initialized";
+			break;
+		case SAMPLING_ENGINE_ERROR_ALREADY_INITIALIZED:
+			returnValue = "Sampling Engine has already been initialized";
+			break;
+		case SAMPLING_ENGINE_ERROR_FILTER_MISMATCH:
+			returnValue = "Unable to find a matching filter";
+			break;
+		case SAMPLING_ENGINE_ERROR_MEMORY_ALLOCATION:
+			returnValue = "Unable to allocate memory";
+			break;
+		case SAMPLING_ENGINE_ERROR_FILTER_NOT_PRIMED:
+			returnValue = "Filter does not have enough data to be stable";
+			break;
+		};
+	return returnValue;
 	}
 
 

@@ -1,23 +1,77 @@
 #include <samplingEngine/engine.h>
 #include <samplingEngine/error_codes.h>
 
-// #include <string.h>
+// #include <internal/logging/log.h>
+
+#include <map>
+#include <pair>
+#include <string>
 
 namespace samplingEngine {
+
+static samplingEngineLogger* local_logger = NULL;
+
+void send_to_log(LOG_LEVELS _level, const char* _message)
+	{
+	if (local_logger != NULL)
+		{
+		switch (_level)
+			{
+			default:					local_logger->debug(_message);		break;
+			case LOG_LEVEL_EMERGENCY:	local_logger->emergency(_message);	break;
+			case LOG_LEVEL_ALERT:		local_logger->alert(_message);		break;
+			case LOG_LEVEL_CRITICAL:	local_logger->critical(_message);	break;
+			case LOG_LEVEL_ERROR:		local_logger->error(_message);		break;
+			case LOG_LEVEL_WARN:		local_logger->warn(_message);		break;
+			case LOG_LEVEL_NOTICE:		local_logger->notice(_message);		break;
+			case LOG_LEVEL_INFO:		local_logger->info(_message);		break;
+			case LOG_LEVEL_DEBUG:		local_logger->debug(_message);		break;
+			};
+		}
+	}
 
 /**************************************
  *** Object Contruction/Destruction ***
  **************************************/
-samplingEngine::samplingEngine()
+samplingEngine::samplingEngine(samplingEngineLogger* _logger) :coreEngine(NULL)
 	{
-	// memset(&configuration, 0, sizeof(struct config::engineConfiguration));
+	local_logger = _logger;
+	send_to_log(LOG_LEVEL_DEBUG, "Constructing Sampling Engine Interface");
 	configuration = config::engineConfiguration();
 	setState(SAMPLE_ENGINE_NOT_INITIALIZED);
+
+	// TODO: Create the core engine
+
+	send_to_log(LOG_LEVEL_DEBUG, "Sampling Engine Interface Fully Constructed");
 	}
 samplingEngine::~samplingEngine()
 	{
+	send_to_log(LOG_LEVEL_DEBUG, "Deconstructing Sampling Engine Interface");
+	if (coreEngine != NULL)
+		{
+		delete coreEngine;
+		coreEngine = NULL;
+		}
 	configuration = config::engineConfiguration();
 	setState(SAMPLE_ENGINE_DESTRUCTION);
+
+	send_to_log(LOG_LEVEL_DEBUG, "Sampling Engine Interface Fully Deconstructed");
+	// finally reset the logger
+	local_logger = NULL;
+	}
+
+/***************
+ *** Logging ***
+ ***************/
+samplingEngineLogger* samplingEngine::setLogger(samplingEngineLogger* _logger)
+	{
+	samplingEngineLogger* returnValue = local_logger;
+	send_to_log(LOG_LEVEL_INFO, "Switching to new log system");
+
+	local_logger = _logger;
+	send_to_log(LOG_LEVEL_INFO, "Logging on new log system");
+
+	return returnValue;
 	}
 
 /*****************************
@@ -25,7 +79,34 @@ samplingEngine::~samplingEngine()
  *****************************/
 /* static */ const std::string  samplingEngine::getErrorMessage(uint32_t _error_code)
 	{
-	std::string returnValue = "UNKNOWN ERROR";
+	// if we use an if or switch structure we could eventually run out of branching
+	// capabilities; so we use a simple map lookup instead. if it's in the map then
+	// we have a message to hand back; otherwise we just use a default message
+	typedef std::map<uint32_t, std::string> errorMessageMap;
+	typedef std::pair<uint32_t, std::string> errorMessageData;
+
+	static bool initialized = false;
+	static errorMessageMap messageData;
+
+	if (initialized == false)
+		{
+		#define ADD_ERROR_MESSAGE(container, code, message)		\
+			{													\
+			errorMessageData data(uint32_t(code), message);		\
+			container.insert(data);								\
+			}
+
+		ADD_ERROR_MESSAGE(messageData, SAMPLING_ENGINE_ERROR_SUCCESS, "Operation Successful");
+		ADD_ERROR_MESSAGE(messageData, SAMPLING_ENGINE_ERROR_BAD_PARAMETER, "Bad Parameter to function call");
+		ADD_ERROR_MESSAGE(messageData, SAMPLING_ENGINE_ERROR_NOT_INITIALIZED, "Sampling Engine has not yet been initialized");
+		ADD_ERROR_MESSAGE(messageData, SAMPLING_ENGINE_ERROR_ALREADY_INITIALIZED, "Sampling Engine has already been initialized");
+		ADD_ERROR_MESSAGE(messageData, SAMPLING_ENGINE_ERROR_FILTER_MISMATCH, "Unable to find a matching filter");
+		ADD_ERROR_MESSAGE(messageData, SAMPLING_ENGINE_ERROR_MEMORY_ALLOCATION, "Unable to allocate memory");
+		ADD_ERROR_MESSAGE(messageData, SAMPLING_ENGINE_ERROR_FILTER_NOT_PRIMED, "Filter does not have enough data to be stable");
+		ADD_ERROR_MESSAGE(messageData, SAMPLING_ENGINE_ERROR_INVALID_POINTER, "Invalid Pointer");
+
+		initialized = true;
+		}
 
 	// if it's an error code that we returned, then convert it to a normal error code
 	// that can be used for lookup. Otherwise, assume the caller already did the
@@ -36,34 +117,17 @@ samplingEngine::~samplingEngine()
 		actual_error = SAMPLING_ENGINE_GET_ERROR_CODE(_error_code);
 		}
 	
-	// lookup and make the conversion
-	switch (actual_error)
+	// default error message text
+	std::string returnValue = "UNKNOWN ERROR";
+
+	// if the error code is in the message map, update the returned value
+	errorMessageMap::iterator msg = messageData.find(actual_error);
+	if (msg != messageData.end())
 		{
-		default:
-			//do nothing
-			break;
-		case SAMPLING_ENGINE_ERROR_SUCCESS:
-			returnValue = "Operation Successful";
-			break;
-		case SAMPLING_ENGINE_ERROR_BAD_PARAMETER:
-			returnValue = "Bad Parameter to function call";
-			break;
-		case SAMPLING_ENGINE_ERROR_NOT_INITIALIZED:
-			returnValue = "Sampling Engine has not yet been initialized";
-			break;
-		case SAMPLING_ENGINE_ERROR_ALREADY_INITIALIZED:
-			returnValue = "Sampling Engine has already been initialized";
-			break;
-		case SAMPLING_ENGINE_ERROR_FILTER_MISMATCH:
-			returnValue = "Unable to find a matching filter";
-			break;
-		case SAMPLING_ENGINE_ERROR_MEMORY_ALLOCATION:
-			returnValue = "Unable to allocate memory";
-			break;
-		case SAMPLING_ENGINE_ERROR_FILTER_NOT_PRIMED:
-			returnValue = "Filter does not have enough data to be stable";
-			break;
-		};
+		msg = (*msg);
+		}
+
+	// provide the meaning back to the caller
 	return returnValue;
 	}
 
@@ -104,43 +168,49 @@ int32_t samplingEngine::initialize(const struct config::engineConfiguration& _co
 	int32_t returnValue = 0;
 	returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_NOT_INITIALIZED);
 
+	send_to_log(LOG_LEVEL_INFO, "Attempting to initialize sampling engine...");
 	if (!isStateSet(SAMPLE_ENGINE_INITIALIZED))
 		{
 		configuration = _configuration;
 		enableState(SAMPLE_ENGINE_INITIALIZED);
 
-		// TODO: Initialize Filters
+		// TODO: create the actual engine
 
 		// Ready for Startup
 		enableState(SAMPLE_ENGINE_OPERATIONAL_STARTUP);
+		send_to_log(LOG_LEVEL_INFO, "Entering Sampling Engine Start-up Mode");
 
 		// Engine State
 		switch (configuration.operationalState)
 			{
 			default:
+				send_to_log(LOG_LEVEL_ERROR, "Unknown Operational State. Terminating");
+				close();
 				returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_BAD_PARAMETER);
 				break;
 
 			case config::ENGINE_NORMAL_OPERATION:
-				// TODO: Any special calibration configurations
 				enableState(SAMPLE_ENGINE_OPERATION_MODE);
+				send_to_log(LOG_LEVEL_INFO, "Entering Normal Operations Mode");
 				returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
 				break;
 
 			case config::ENGINE_DIAGNOSTIC_OPERATION:
-				// TODO: Any special diagnostic configurations
 				enableState(SAMPLE_ENGINE_DIAGNOSTIC_MODE);
+				send_to_log(LOG_LEVEL_INFO, "Entering Diagnostic Operations Mode");
 				returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
 				break;
 
 			case config::ENGINE_CALIBRATION_OPERATION:
 				enableState(SAMPLE_ENGINE_CALIBRATION_MODE);
+				send_to_log(LOG_LEVEL_INFO, "Entering Calibration Operations Mode");
 				returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
 				break;
 			};
 		}
 	else
 		{
+		send_to_log(LOG_LEVEL_INFO, "Failed to initialize sampling engine because it was already initialized");
 		returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_ALREADY_INITIALIZED);
 		}
 	return returnValue;
@@ -162,23 +232,30 @@ int32_t samplingEngine::shutdown()
 	// 2.3 clear any operational mode bits - resetting to simply initialized
 	// 2.4 return success so that the caller can retrieve the generated records
 
+	send_to_log(LOG_LEVEL_INFO, "Attempting to start operational shutdown of sampling engine...");
 	if (isStateSet(SAMPLE_ENGINE_INITIALIZED))
 		{
+		send_to_log(LOG_LEVEL_INFO, "Switching from Operation Mode to Shutdown Mode");
 		disableState(SAMPLE_ENGINE_OPERATIONAL_STARTUP);
 		disableState(SAMPLE_ENGINE_OPERATIONAL_READY);
 		enableState(SAMPLE_ENGINE_OPERATIONAL_SHUTDOWN);
 
-		// TODO: See 2.2 above 
+		send_to_log(LOG_LEVEL_INFO, "Processing last time record until buffers are cleared");
+		// TODO: See 2.2 above
+		send_to_log(LOG_LEVEL_INFO, "Buffers clear. Shutdown complete");
 
 		disableState(SAMPLE_ENGINE_OPERATIONAL_SHUTDOWN);
 		disableState(SAMPLE_ENGINE_DIAGNOSTIC_MODE);
 		disableState(SAMPLE_ENGINE_CALIBRATION_MODE);
 		disableState(SAMPLE_ENGINE_OPERATION_MODE);
+
+		send_to_log(LOG_LEVEL_INFO, "Returning to initialized state");
 		setState(SAMPLE_ENGINE_INITIALIZED);
 		returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
 		}
 	else
 		{
+		send_to_log(LOG_LEVEL_ERROR, "Failed to start operational shutdown because sampling engine not initialized");
 		returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_NOT_INITIALIZED);
 		}
 	return returnValue;
@@ -198,14 +275,20 @@ int32_t samplingEngine::close(void)
 	// 2.2 set state back to simply not initialized
 	// 2.3 return success
 
+	send_to_log(LOG_LEVEL_INFO, "Attempting to close the sampling engine")
 	if (isStateSet(SAMPLE_ENGINE_INITIALIZED))
 		{
-		// TODO: Clear filters
+		send_to_log(LOG_LEVEL_INFO, "Resetting all component");
+
+		// TODO: Reset core engine
+
+		send_to_log(LOG_LEVEL_INFO, "Returning to uninitialized state");
 		setState(SAMPLE_ENGINE_NOT_INITIALIZED);
 		returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
 		}
 	else
 		{
+		send_to_log(LOG_LEVEL_ERROR, "Failed to close because sampling engine not initialized");
 		returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_NOT_INITIALIZED);
 		}
 	return returnValue;

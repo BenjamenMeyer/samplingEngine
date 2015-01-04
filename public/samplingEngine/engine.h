@@ -3,15 +3,44 @@
 
 #include <stdint.h>
 
-#include <samplingEngine/time_record.h>
+#include <string>
+
+#include <samplingEngine/configuration.h>
 #include <samplingEngine/configuration.h>
 #include <samplingEngine/distance_record.h>
+#include <samplingEngine/record_queues.h>
 #include <samplingEngine/record_type.h>
 #include <samplingEngine/status_record.h>
-#include <samplingEngine/configuration.h>
+#include <samplingEngine/time_record.h>
 
 namespace samplingEngine
     {
+
+	// base class for the internal core engine functionality
+	class coreSamplingEngine
+		{
+		public:
+			coreSamplingEngine();
+			virtual ~coreSamplingEngine();
+		};
+	
+	class samplingEngineLogger
+		{
+		public:
+			samplingEngineLogger();
+			virtual ~samplingEngineLogger();
+
+			void emergency(const char* _message)=0;
+			void alert(const char* _message)=0;
+			void critical(const char* _message)=0;
+			void error(const char* _message)=0;
+			void warn(const char* _message)=0;
+			void notice(const char* _message)=0;
+			void info(const char* _message)=0;
+			void debug(const char* _message)=0;
+		};
+
+	// library interface class that will be used externally
     class samplingEngine
         {
         public:
@@ -68,8 +97,25 @@ namespace samplingEngine
 				SAMPLE_ENGINE_IN_CALIBRATION_SHUTDOWN = SAMPLE_ENGINE_IN_CALIBRATION|SAMPLE_ENGINE_OPERATIONAL_SHUTDOWN,
 				};
 
-            samplingEngine();
+            samplingEngine(samplingEngineLogger* _logger=NULL);
             ~samplingEngine();
+
+
+			//
+			// setLogger()
+			//
+			// Purpose:
+			//	  Provide a means to record messages to an external logger
+			//
+			// Parameters:
+			//	  _logger - samplingEngineLogger* - pointer to an instance of the samplingEngineLogger
+			//                                      that provides the complete interface
+			//
+			// Returns:
+			//	  samplingEngineLogger* - pointer to the previous logger
+			//
+			//
+			samplingEngineLogger* setLogger(samplingEngineLogger* _logger);
 
             //
             // getErrorMessage()
@@ -179,7 +225,8 @@ namespace samplingEngine
             //
             //    Note: When data is passed out, it must be copied from the buffer. Memory is not necessarily allocated
             //        to pass the record out of the processing engine. Memory that is allocated will be reclaimed when
-            //        the next record is processed by engine_process_record()
+            //        the next record is processed by engine_process_record(). Any previous logger objects are not
+			//		  automatically freed since they are always created externally.
             //
 			records::recordType getTimeRecordType() const;
             records::recordType getDistanceRecordType() const;
@@ -197,6 +244,16 @@ namespace samplingEngine
 
 		private:
 			uint32_t state;
+			queues::record_queue input_queue;
+
+			queues::record_queue intermediate_time_queue;
+			queues::record_queue output_time_queue;
+
+			queues::record_queue intermediate_distance_queue;
+			queues::record_queue output_distance_queue;
+			
+			// core engine
+			coreSamplingEngine* coreEngine;
         };
     }
 

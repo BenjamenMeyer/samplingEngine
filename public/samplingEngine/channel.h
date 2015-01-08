@@ -10,9 +10,14 @@ namespace samplingEngine
     {
     namespace channels
         {
+        // channel configuration information
         struct channel_config
             {
-            // offset in data array for the channel data 
+            // byte offset in data array for the channel data
+            // Note: For performance reasons it is best to have the data_offset value
+            //       be a multiple of 2, 4, or 8 to match machine byte boundaries.
+            //       Most systems will benefit best from a 4 byte (32-bit systems)
+            //       or 8 bytes (64-bit systems).
             uint16_t data_offset;
             // number of bytes composing the channel data
             uint16_t byte_count;
@@ -42,6 +47,7 @@ namespace samplingEngine
             std::string json_data;
             };
 
+        // list of channels
         typedef std::list<struct channel_config> channelList;
 
         // Channel Normalized Data to Scalar Data

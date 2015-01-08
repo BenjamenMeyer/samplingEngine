@@ -16,15 +16,15 @@ namespace samplingEngine
 		struct record_container
 			{
 			samplingEngine::records::recordType record_type;
-			union record_data
+			union record_data_pointers
 				{
 				samplingEngine::records::time_record* time_record;
 				samplingEngine::records::distance_record* distance_record;
 				samplingEngine::records::status_record* status_record;
-				};
+				} record_data;
 			};
 		
-		typedef std::deque<struct record_container*> record_queue;
+		typedef std::deque<struct record_container> record_queue;
 
 		}
 	}

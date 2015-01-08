@@ -165,8 +165,7 @@ bool samplingEngine::isStateSet(samplingEngine::sampleEngineState _state_bit) co
  **********************/
 int32_t samplingEngine::initialize(const struct config::engineConfiguration& _configuration)
 	{
-	int32_t returnValue = 0;
-	returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_NOT_INITIALIZED);
+	int32_t returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_NOT_INITIALIZED);
 
 	send_to_log(LOG_LEVEL_INFO, "Attempting to initialize sampling engine...");
 	if (!isStateSet(SAMPLE_ENGINE_INITIALIZED))

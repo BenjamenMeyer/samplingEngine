@@ -22,7 +22,7 @@ namespace samplingEngine
 				samplingEngine::records::distance_record* distance_record;
 				samplingEngine::records::status_record* status_record;
 				};
-			}
+			};
 		
 		typedef std::deque<struct record_container*> record_queue;
 

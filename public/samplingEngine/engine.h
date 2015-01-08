@@ -6,8 +6,9 @@
 #include <string>
 
 #include <samplingEngine/configuration.h>
-#include <samplingEngine/configuration.h>
+#include <samplingEngine/core.h>
 #include <samplingEngine/distance_record.h>
+#include <samplingEngine/log.h>
 #include <samplingEngine/record_queues.h>
 #include <samplingEngine/record_type.h>
 #include <samplingEngine/status_record.h>
@@ -15,31 +16,6 @@
 
 namespace samplingEngine
     {
-
-	// base class for the internal core engine functionality
-	class coreSamplingEngine
-		{
-		public:
-			coreSamplingEngine();
-			virtual ~coreSamplingEngine();
-		};
-	
-	class samplingEngineLogger
-		{
-		public:
-			samplingEngineLogger();
-			virtual ~samplingEngineLogger();
-
-			void emergency(const char* _message)=0;
-			void alert(const char* _message)=0;
-			void critical(const char* _message)=0;
-			void error(const char* _message)=0;
-			void warn(const char* _message)=0;
-			void notice(const char* _message)=0;
-			void info(const char* _message)=0;
-			void debug(const char* _message)=0;
-		};
-
 	// library interface class that will be used externally
     class samplingEngine
         {
@@ -97,7 +73,7 @@ namespace samplingEngine
 				SAMPLE_ENGINE_IN_CALIBRATION_SHUTDOWN = SAMPLE_ENGINE_IN_CALIBRATION|SAMPLE_ENGINE_OPERATIONAL_SHUTDOWN,
 				};
 
-            samplingEngine(samplingEngineLogger* _logger=NULL);
+            samplingEngine(logging::samplingEngineLogger* _logger=NULL);
             ~samplingEngine();
 
 
@@ -108,14 +84,14 @@ namespace samplingEngine
 			//	  Provide a means to record messages to an external logger
 			//
 			// Parameters:
-			//	  _logger - samplingEngineLogger* - pointer to an instance of the samplingEngineLogger
+			//	  _logger - logging::samplingEngineLogger* - pointer to an instance of the logging::samplingEngineLogger
 			//                                      that provides the complete interface
 			//
 			// Returns:
-			//	  samplingEngineLogger* - pointer to the previous logger
+			//	  logging::samplingEngineLogger* - pointer to the previous logger
 			//
 			//
-			samplingEngineLogger* setLogger(samplingEngineLogger* _logger);
+			logging::samplingEngineLogger* setLogger(logging::samplingEngineLogger* _logger);
 
             //
             // getErrorMessage()
@@ -253,7 +229,7 @@ namespace samplingEngine
 			queues::record_queue output_distance_queue;
 			
 			// core engine
-			coreSamplingEngine* coreEngine;
+			core::coreSamplingEngine* coreEngine;
         };
     }
 

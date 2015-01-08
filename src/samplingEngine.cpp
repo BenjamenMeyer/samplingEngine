@@ -1,15 +1,15 @@
 #include <samplingEngine/engine.h>
 #include <samplingEngine/error_codes.h>
 
-// #include <internal/logging/log.h>
+#include <samplingEngineInternal/logging/log.h>
 
 #include <map>
-#include <pair>
+//#include <pair>
 #include <string>
 
 namespace samplingEngine {
 
-static samplingEngineLogger* local_logger = NULL;
+static logging::samplingEngineLogger* local_logger = NULL;
 
 void send_to_log(LOG_LEVELS _level, const char* _message)
 	{
@@ -33,7 +33,7 @@ void send_to_log(LOG_LEVELS _level, const char* _message)
 /**************************************
  *** Object Contruction/Destruction ***
  **************************************/
-samplingEngine::samplingEngine(samplingEngineLogger* _logger) :coreEngine(NULL)
+samplingEngine::samplingEngine(logging::samplingEngineLogger* _logger) :coreEngine(NULL)
 	{
 	local_logger = _logger;
 	send_to_log(LOG_LEVEL_DEBUG, "Constructing Sampling Engine Interface");
@@ -63,9 +63,9 @@ samplingEngine::~samplingEngine()
 /***************
  *** Logging ***
  ***************/
-samplingEngineLogger* samplingEngine::setLogger(samplingEngineLogger* _logger)
+logging::samplingEngineLogger* samplingEngine::setLogger(logging::samplingEngineLogger* _logger)
 	{
-	samplingEngineLogger* returnValue = local_logger;
+	logging::samplingEngineLogger* returnValue = local_logger;
 	send_to_log(LOG_LEVEL_INFO, "Switching to new log system");
 
 	local_logger = _logger;
@@ -124,7 +124,7 @@ samplingEngineLogger* samplingEngine::setLogger(samplingEngineLogger* _logger)
 	errorMessageMap::iterator msg = messageData.find(actual_error);
 	if (msg != messageData.end())
 		{
-		msg = (*msg);
+		returnValue = (*msg).second;
 		}
 
 	// provide the meaning back to the caller
@@ -275,7 +275,7 @@ int32_t samplingEngine::close(void)
 	// 2.2 set state back to simply not initialized
 	// 2.3 return success
 
-	send_to_log(LOG_LEVEL_INFO, "Attempting to close the sampling engine")
+	send_to_log(LOG_LEVEL_INFO, "Attempting to close the sampling engine");
 	if (isStateSet(SAMPLE_ENGINE_INITIALIZED))
 		{
 		send_to_log(LOG_LEVEL_INFO, "Resetting all component");

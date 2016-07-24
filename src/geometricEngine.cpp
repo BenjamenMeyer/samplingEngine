@@ -25,7 +25,7 @@ bool geometricEngine::isOpen() const
 int32_t geometricEngine::open(const struct samplingEngine::config::engineConfiguration& _configuration)
     {
     int32_t returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
-    uint64_t maximum_sample_buffering = 0;
+    maximum_sample_buffering = 0;
     for (samplingEngine::interfaces::abstractFilterList::iterator iter = filters.begin(); iter != filters.end(); ++iter)
         {
         (*iter)->open();
@@ -98,6 +98,14 @@ int32_t geometricEngine::addFilter(samplingEngine::interfaces::abstractFilter* _
 
     return returnValue;
     }
+int32_t geometricEngine::addInterdependentFilters(samplingEngine::interfaces::abstractFilterList& _interdependentFilters)
+    {
+    int32_t returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
+
+    // TODO
+
+    return returnValue;
+    }
 
 // input
 int32_t geometricEngine::processRecord(const struct samplingEngine::records::time_record*& _record)
@@ -123,7 +131,12 @@ int32_t geometricEngine::processRecord(const struct samplingEngine::records::tim
     }
 
 // output
-samplingEngine::records::recordType geometricEngine::getRecordType() const
+samplingEngine::records::recordType geometricEngine::getTimeRecordType() const
+    {
+    // geometricEngine right now only returns distance records
+    return samplingEngine::records::INVALID_RECORD_TYPE;
+    }
+samplingEngine::records::recordType geometricEngine::getDistanceRecordType() const
     {
     samplingEngine::records::recordType returnValue = samplingEngine::records::INVALID_RECORD_TYPE;
 

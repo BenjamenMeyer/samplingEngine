@@ -2,10 +2,21 @@
 #include <samplingEngine/error_codes.h>
 
 #include <samplingEngineInternal/logging/log.h>
+#include <samplingEngineInternal/geometricEngine/engine.h>
 
 #include <map>
-//#include <pair>
 #include <string>
+
+// Shortcut macro
+#define RUN_CORE_ENGINE(core, function, parameter, returnValue)                             \
+    if (core != NULL )                                                                      \
+        {                                                                                   \
+        returnValue = core->function(parameter);                                            \
+        }                                                                                   \
+    else                                                                                    \
+        {                                                                                   \
+        returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_INVALID_STATE); \
+        }
 
 namespace samplingEngine {
 
@@ -40,7 +51,9 @@ samplingEngine::samplingEngine(logging::samplingEngineLogger* _logger) : coreEng
     configuration = config::engineConfiguration();
     setState(SAMPLE_ENGINE_NOT_INITIALIZED);
 
-    // TODO: Create the core engine
+    // create the actual engine
+    coreEngine = new geometricEngine::geometricEngine();
+    lastTimeRecord = NULL;
 
     send_to_log(LOG_LEVEL_DEBUG, "Sampling Engine Interface Fully Constructed");
     }
@@ -173,39 +186,50 @@ int32_t samplingEngine::initialize(const struct config::engineConfiguration& _co
         configuration = _configuration;
         enableState(SAMPLE_ENGINE_INITIALIZED);
 
-        // TODO: create the actual engine
-
-        // Ready for Startup
-        enableState(SAMPLE_ENGINE_OPERATIONAL_STARTUP);
-        send_to_log(LOG_LEVEL_INFO, "Entering Sampling Engine Start-up Mode");
-
-        // Engine State
-        switch (configuration.operationalState)
+        // initialize the engine
+        if (coreEngine != NULL)
             {
-            default:
-                send_to_log(LOG_LEVEL_ERROR, "Unknown Operational State. Terminating");
-                close();
-                returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_BAD_PARAMETER);
-                break;
+            returnValue = coreEngine->initialize();
 
-            case config::ENGINE_NORMAL_OPERATION:
-                enableState(SAMPLE_ENGINE_OPERATION_MODE);
-                send_to_log(LOG_LEVEL_INFO, "Entering Normal Operations Mode");
-                returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
-                break;
+            if (SAMPLING_ENGINE_CHECK_SUCCESS(returnValue))
+                {
+                // Ready for Startup
+                enableState(SAMPLE_ENGINE_OPERATIONAL_STARTUP);
+                send_to_log(LOG_LEVEL_INFO, "Entering Sampling Engine Start-up Mode");
 
-            case config::ENGINE_DIAGNOSTIC_OPERATION:
-                enableState(SAMPLE_ENGINE_DIAGNOSTIC_MODE);
-                send_to_log(LOG_LEVEL_INFO, "Entering Diagnostic Operations Mode");
-                returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
-                break;
+                // Engine State
+                switch (configuration.operationalState)
+                    {
+                    default:
+                        send_to_log(LOG_LEVEL_ERROR, "Unknown Operational State. Terminating");
+                        close();
+                        returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_BAD_PARAMETER);
+                        break;
 
-            case config::ENGINE_CALIBRATION_OPERATION:
-                enableState(SAMPLE_ENGINE_CALIBRATION_MODE);
-                send_to_log(LOG_LEVEL_INFO, "Entering Calibration Operations Mode");
-                returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
-                break;
-            };
+                    case config::ENGINE_NORMAL_OPERATION:
+                        enableState(SAMPLE_ENGINE_OPERATION_MODE);
+                        send_to_log(LOG_LEVEL_INFO, "Entering Normal Operations Mode");
+                        returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
+                        break;
+
+                    case config::ENGINE_DIAGNOSTIC_OPERATION:
+                        enableState(SAMPLE_ENGINE_DIAGNOSTIC_MODE);
+                        send_to_log(LOG_LEVEL_INFO, "Entering Diagnostic Operations Mode");
+                        returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
+                        break;
+
+                    case config::ENGINE_CALIBRATION_OPERATION:
+                        enableState(SAMPLE_ENGINE_CALIBRATION_MODE);
+                        send_to_log(LOG_LEVEL_INFO, "Entering Calibration Operations Mode");
+                        returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
+                        break;
+                    };
+                }
+           }
+        else
+            {
+            returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_INVALID_STATE); \
+            }
         }
     else
         {
@@ -240,7 +264,12 @@ int32_t samplingEngine::shutdown()
         enableState(SAMPLE_ENGINE_OPERATIONAL_SHUTDOWN);
 
         send_to_log(LOG_LEVEL_INFO, "Processing last time record until buffers are cleared");
-        // TODO: See 2.2 above
+        if (lastTimeRecord != NULL)
+            {
+            // TODO: See 2.2 above
+
+            lastTimeRecord = NULL;
+            }
         send_to_log(LOG_LEVEL_INFO, "Buffers clear. Shutdown complete");
 
         disableState(SAMPLE_ENGINE_OPERATIONAL_SHUTDOWN);
@@ -279,11 +308,15 @@ int32_t samplingEngine::close(void)
         {
         send_to_log(LOG_LEVEL_INFO, "Resetting all component");
 
-        // TODO: Reset core engine
+        // close core engine
+        returnValue = coreEngine->close();
 
-        send_to_log(LOG_LEVEL_INFO, "Returning to uninitialized state");
-        setState(SAMPLE_ENGINE_NOT_INITIALIZED);
-        returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
+        if (SAMPLING_ENGINE_CHECK_SUCCESS(returnValue))
+            {
+            send_to_log(LOG_LEVEL_INFO, "Returning to uninitialized state");
+            setState(SAMPLE_ENGINE_NOT_INITIALIZED);
+            returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
+            }
         }
     else
         {
@@ -303,6 +336,8 @@ int32_t samplingEngine::processRecord(const struct records::time_record*& _recor
 
     if (isStateSet(SAMPLE_ENGINE_INITIALIZED))
         {
+        lastTimeRecord = _record;
+        RUN_CORE_ENGINE(coreEngine, processRecord, _record, returnValue)
         }
     else
         {
@@ -320,6 +355,7 @@ records::recordType samplingEngine::getTimeRecordType() const
 
     if (isStateSet(SAMPLE_ENGINE_INITIALIZED))
         {
+        returnValue = coreEngine->getTimeRecordType();
         }
     return returnValue;
     }
@@ -329,6 +365,7 @@ records::recordType samplingEngine::getDistanceRecordType() const
 
     if (isStateSet(SAMPLE_ENGINE_INITIALIZED))
         {
+        returnValue = coreEngine->getDistanceRecordType();
         }
     return returnValue;
     }
@@ -343,6 +380,7 @@ int32_t samplingEngine::getDataRecord(struct records::distance_record*& _record)
 
     if (isStateSet(SAMPLE_ENGINE_INITIALIZED))
         {
+        RUN_CORE_ENGINE(coreEngine, getDataRecord, _record, returnValue)
         }
     else
         {
@@ -358,6 +396,7 @@ int32_t samplingEngine::getStatusRecord(struct records::status_record*& _record)
 
     if (isStateSet(SAMPLE_ENGINE_INITIALIZED))
         {
+        RUN_CORE_ENGINE(coreEngine, getStatusRecord, _record, returnValue)
         }
     else
         {
@@ -373,6 +412,7 @@ int32_t samplingEngine::getTimeRecord(struct records::time_record*& _record)
 
     if (isStateSet(SAMPLE_ENGINE_INITIALIZED))
         {
+        RUN_CORE_ENGINE(coreEngine, getTimeRecord, _record, returnValue)
         }
     else
         {

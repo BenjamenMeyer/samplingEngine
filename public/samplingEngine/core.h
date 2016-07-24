@@ -20,7 +20,11 @@ namespace samplingEngine
                 virtual ~coreSamplingEngine();
 
                 // initialization
-                virtual int32_t initialize(const struct config::engineConfiguration& _configuration)=0;
+                virtual int32_t open(const struct config::engineConfiguration& _configuration)=0;
+                // determine whether or not the engine has been opened
+                virtual bool isOpen() const=0;
+                // initialize
+                virtual int32_t initialize()=0;
                 // destruction
                 virtual int32_t close()=0;
 

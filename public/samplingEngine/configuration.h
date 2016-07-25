@@ -31,17 +31,17 @@ namespace samplingEngine
             struct samplingEngine::config::tachometerConfiguration tachometer;
             };
 
-		enum engineConfigurationState
-			{
-			ENGINE_NORMAL_OPERATION=0,
-			ENGINE_DIAGNOSTIC_OPERATION,
-			ENGINE_CALIBRATION_OPERATION
-			};
+        enum engineConfigurationState
+            {
+            ENGINE_NORMAL_OPERATION=0,
+            ENGINE_DIAGNOSTIC_OPERATION,
+            ENGINE_CALIBRATION_OPERATION
+            };
 
         struct engineConfiguration
             {
-			// engine configuration state
-			engineConfigurationState operationalState;
+            // engine configuration state
+            engineConfigurationState operationalState;
 
             // Sample Configuration
             struct samplingEngine::config::sampleConfiguration samples;

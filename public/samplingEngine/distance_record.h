@@ -7,6 +7,16 @@ namespace samplingEngine
     {
     namespace records
         {
+        // Distance-Domain Flags specified via a bitmap
+        namespace distance_record_flags
+            {
+            enum distanceFlags
+                {
+                DISTANCE_FLAGS_CLEAR=0,                // No Flags are set
+                DISTANCE_FLAGS_SIMULATION_MODE,        // Simulation Mode Enabled
+                };
+            };
+
         // the system has a maximum time sample rate that determines
         // the maximum velocity for capturing data. As the velocity
         // reaches that maximum velocity value then the start/end
@@ -23,7 +33,7 @@ namespace samplingEngine
         // be 1 time record for each distance record (start = end).
         // It is not wise to surpass the maximum velocity (start > end) as
         // data will then be unreliable.
-        struct time_indexes      // associated time sample index range
+        struct time_indexes       // associated time sample index range
             {
             uint64_t start_index; // earliest time sample used to generate the distance sample
             uint64_t end_index;   // latest time sample used to generate the distance sample
@@ -31,18 +41,13 @@ namespace samplingEngine
 
         struct distance_record
             {
-            // length of the entire record
-            uint32_t length;
-            // record identifier
-            uint32_t id;
-            // distance sample index 
-            uint64_t sample_index;
-            // associated time sample index range
-            struct time_indexes index;
-            // distance movement sensor data
-            int64_t tachometer;
-            // array of channel data
-            uint8_t channels[1];
+            uint32_t length;            // length of the entire record
+            uint32_t id;                // record identifier
+            uint64_t sample_index;      // distance sample index
+            struct time_indexes index;  // associated time sample index range
+            int64_t tachometer;         // distance movement sensor data
+            uint64_t flags;             // flags
+            uint8_t channels[1];        // array of channel data
             };
         }
     }

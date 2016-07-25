@@ -8,35 +8,39 @@ matrix:
       env: COMPILER=g++-4.8
     - compiler: gcc
       addons:
-        sources:
-          - ubuntu-toolchain-r-test
-        packages:
-          - g++-4.9
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.9
       env: COMPILER=g++-4.9
     - compiler: gcc
       addons:
-        sources:
-          - ubuntu-toolchain-r-test
-        packages:
-          - g++-5
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-5
       env: COMPILER=g++-5
     - compiler: clang
       env: COMPILER=clang++-3.5
     - compiler: clang
       addons:
-        sources:
-          - ubuntu-toolchain-r-test
-          - llvm-toolchain-precise-3.6
-        packages:
-          - clang-3.6
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.6
+          packages:
+            - clang-3.6
       env: COMPILER=clang++-3.6
     - compiler: clang
       addons:
-        sources:
-          - ubuntu-toolchain-r-test
-          - llvm-toolchain-precise-3.7
-        packages:
-          - clang-3.7
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.7
+          packages:
+            - clang-3.7
       env: COMPILER=clang++-3.7
 before_install:
   - sudo apt-get update -qq
@@ -44,4 +48,4 @@ before_install:
 script:
   - mkdir build
   - cd build
-  - cmake -DCMAKE_CXX_COMPILER=${COMPILER} ../src && make
+  - cmake -DCMAKE_CXX_COMPILER=`which ${COMPILER}` ../src && make

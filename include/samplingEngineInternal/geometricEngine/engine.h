@@ -68,5 +68,4 @@ namespace geometricEngine
         };
     }
 
-
 #endif //GEOMETRIC_ENGINE_H__

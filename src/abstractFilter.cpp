@@ -5,22 +5,22 @@
 #include <string.h>
 
 namespace samplingEngine {
-	namespace interfaces {
+    namespace interfaces {
 
-	abstractFilter::abstractFilter()
-		{
-		}
-	void abstractFilter::add_dependencies(abstractFilter* _filter)
-		{
-		dependencies.push_back(_filter);
-		};
+    abstractFilter::abstractFilter()
+        {
+        }
+    void abstractFilter::add_dependencies(abstractFilter* _filter)
+        {
+        dependencies.push_back(_filter);
+        };
 
-	void abstractFilter::reset_dependencies()
-		{
-		dependencies.clear();
-		};
+    void abstractFilter::reset_dependencies()
+        {
+        dependencies.clear();
+        };
 
-	}
+    }
 }
 
 

@@ -182,10 +182,10 @@ namespace samplingEngine
             //    integer value containing either of the following:
             //        if negative - error code
             //              if zero or postive - number of records available to be retrieved
-			//
-			// Note: Holds onto a reference of the record in case shutdown() is called in order
-			//       to use the record during the shutdown processing to be able to properly empty
-			//       the data buffer. The reference will be auto-dropped when shutdown() is called.
+            //
+            // Note: Holds onto a reference of the record in case shutdown() is called in order
+            //       to use the record during the shutdown processing to be able to properly empty
+            //       the data buffer. The reference will be auto-dropped when shutdown() is called.
             //
             int32_t processRecord(const struct records::time_record*& _record);
 
@@ -232,9 +232,9 @@ namespace samplingEngine
             queues::record_queue intermediate_distance_queue;
             queues::record_queue output_distance_queue;
 
-			// reference to the last time record, used for and
-			// reset by shutdown()
-			const struct records::time_record* lastTimeRecord;
+            // reference to the last time record, used for and
+            // reset by shutdown()
+            const struct records::time_record* lastTimeRecord;
 
             // core engine
             core::coreSamplingEngine* coreEngine;

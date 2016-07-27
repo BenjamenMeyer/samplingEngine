@@ -1,0 +1,15 @@
+Measurements To Implement:
+
+- Diagnostic Wave
+	* Configurable for Sine or Co-sine
+- Tachometer
+- Tachometer Delta
+	* average over a sample window
+- Tachometer Delta Change Rate
+	* average over a sample window
+	* rate of change -> speed
+- Tachometer Delta Change Rate Change Rate
+	* average over a sample window
+	* rate of change of rate of change -> acceleration
+- Forward/Reverse Detection
+	* analyze Tachometer Delta to monitor direction

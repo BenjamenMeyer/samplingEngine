@@ -1,0 +1,10 @@
+Filters To Implement:
+
+- Averaging
+  * value average over a given sample window
+- Hi-Pass Band Filter
+  * mark channel status invalid if above given value
+  * (optional) zero output value of channel if invalid
+- Lo-Pass Band Filter
+  * mark channel status invalid if below given value
+  * (optional) zero output value of channel if invalid

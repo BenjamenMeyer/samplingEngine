@@ -59,12 +59,12 @@ namespace samplingEngine
                 virtual void updateRecord(const records::status_record*& _record, bool timeDomain)=0;
 
                 // set the current Time-based Record Input Index (start of time queue)
-                virtual void setTimeRecordInputIndex(uint64_t _input_index, size_t _data_size);
+                virtual void setTimeRecordInputIndex(uint64_t _input_index, size_t _data_size)=0;
 
                 // set the current Time-based Record Output Index (end of time queue)
-                virtual void setTimeRecordOutputIndex(uint64_t _input_inde, size_t _data_sizex);
+                virtual void setTimeRecordOutputIndex(uint64_t _input_inde, size_t _data_sizex)=0;
                 // set the current Distance Record Output Index
-                virtual void setDistanceRecordOutputIndex(uint64_t _input_index, size_t _data_size);
+                virtual void setDistanceRecordOutputIndex(uint64_t _input_index, size_t _data_size)=0;
 
                 // add a reference to a filter this filter is dependent upon
                 void add_dependencies(abstractFilter* _filter);

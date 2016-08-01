@@ -9,7 +9,7 @@ BOOST_AUTO_TEST_SUITE( SamplingEngine );
 
 BOOST_AUTO_TEST_CASE( SamplingEngineInstantiationPublic )
 {
-	samplingEngine::samplingEngine testEngine();
+	samplingEngine::samplingEngine testEngine;
 }
 
 BOOST_AUTO_TEST_SUITE_END();

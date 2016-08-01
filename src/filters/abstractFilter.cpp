@@ -10,6 +10,9 @@ namespace samplingEngine {
     abstractFilter::abstractFilter()
         {
         }
+	abstractFilter::~abstractFilter()
+		{
+		}
     void abstractFilter::add_dependencies(abstractFilter* _filter)
         {
         dependencies.push_back(_filter);

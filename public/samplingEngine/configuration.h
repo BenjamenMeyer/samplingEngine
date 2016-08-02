@@ -3,9 +3,9 @@
 
 #include <stdint.h>
 
-#include <samplingEngine/time_channels.h>
-#include <samplingEngine/distance_channels.h>
-#include <samplingEngine/channel.h>
+#include <samplingEngine/channels/time_channels.h>
+#include <samplingEngine/channels/distance_channels.h>
+#include <samplingEngine/channels/channel.h>
 
 namespace samplingEngine
     {

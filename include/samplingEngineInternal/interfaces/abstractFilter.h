@@ -6,9 +6,9 @@
 #include <deque>
 #include <string>
 
-#include <samplingEngine/time_record.h>
-#include <samplingEngine/distance_record.h>
-#include <samplingEngine/status_record.h>
+#include <samplingEngine/records/time_record.h>
+#include <samplingEngine/records/distance_record.h>
+#include <samplingEngine/records/status_record.h>
 
 namespace samplingEngine
     {

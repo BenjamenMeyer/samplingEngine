@@ -1,14 +1,17 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.9)
 PROJECT(SamplingEngine C CXX)
+LIST(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../cmake)
+
+MESSAGE("CMake Module Path: ${CMAKE_MODULE_PATH}")
 
 SET(PUBLIC_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/../public)
 SET(INTERNAL_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/../include)
 
-OPTION(ENABLE_CODE_COVERAGE "Enable Code Coverage Information" OFF)
+OPTION(ENABLE_CODE_COVERAGE "Enable Code Coverage Information" ON)
 IF (${ENABLE_CODE_COVERAGE})
 	if (UNIX)
 		# disable optimizations and enable code coverage reports
-		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -coverage -O0 -g")
+		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -coverage -O0 -g -fprofile-arcs -ftest-coverage")
 	ENDIF()
 ENDIF()
 

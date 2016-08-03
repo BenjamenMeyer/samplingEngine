@@ -5,7 +5,9 @@ language: cpp
 matrix:
   include:
     - compiler: gcc
-      env: COMPILER=g++-4.8
+      env:
+        C_COMPILER=gcc-4.8
+        CXX_COMPILER=g++-4.8
     - compiler: gcc
       addons:
         apt:
@@ -13,7 +15,9 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-4.9
-      env: COMPILER=g++-4.9
+      env:
+        C_COMPILER=gcc-4.9
+        CXX_COMPILER=g++-4.9
     - compiler: gcc
       addons:
         apt:
@@ -21,9 +25,13 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-5
-      env: COMPILER=g++-5
+      env:
+        C_COMPILER=gcc-5
+        CXX_COMPILER=g++-5
     - compiler: clang
-      env: COMPILER=clang++-3.5
+      env:
+        C_COMPILER=clang-3.5
+        CXX_COMPILER=clang++-3.5
     - compiler: clang
       addons:
         apt:
@@ -32,7 +40,9 @@ matrix:
             - llvm-toolchain-precise-3.6
           packages:
             - clang-3.6
-      env: COMPILER=clang++-3.6
+      env:
+        C_COMPILER=clang-3.6
+        CXX_COMPILER=clang++-3.6
     - compiler: clang
       addons:
         apt:
@@ -41,11 +51,13 @@ matrix:
             - llvm-toolchain-precise-3.7
           packages:
             - clang-3.7
-      env: COMPILER=clang++-3.7
+      env:
+        C_COMPILER=clang-3.7
+        CXX_COMPILER=clang++-3.7
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install cmake
+  - sudo apt-get install cmake libboost-test-dev gcov lcov gcovr
 script:
   - mkdir build
   - cd build
-  - cmake -DCMAKE_CXX_COMPILER=`which ${COMPILER}` ../src && make
+  - cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=`which ${C_COMPILER}` -DCMAKE_CXX_COMPILER=`which ${CXX_COMPILER}` ../src && make coverage

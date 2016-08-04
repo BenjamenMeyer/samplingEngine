@@ -104,7 +104,7 @@ logging::samplingEngineLogger* samplingEngine::setLogger(logging::samplingEngine
     if (initialized == false)
         {
         #define ADD_ERROR_MESSAGE(container, code, message)        \
-            {                                                    \
+            {                                                      \
             errorMessageData data(uint32_t(code), message);        \
             container.insert(data);                                \
             }
@@ -117,6 +117,9 @@ logging::samplingEngineLogger* samplingEngine::setLogger(logging::samplingEngine
         ADD_ERROR_MESSAGE(messageData, SAMPLING_ENGINE_ERROR_MEMORY_ALLOCATION, "Unable to allocate memory");
         ADD_ERROR_MESSAGE(messageData, SAMPLING_ENGINE_ERROR_FILTER_NOT_PRIMED, "Filter does not have enough data to be stable");
         ADD_ERROR_MESSAGE(messageData, SAMPLING_ENGINE_ERROR_INVALID_POINTER, "Invalid Pointer");
+		ADD_ERROR_MESSAGE(messageData, SAMPLING_ENGINE_ERROR_DEPENDENCY_NOT_FOUND, "Filter dependency not found");
+		ADD_ERROR_MESSAGE(messageData, SAMPLING_ENGINE_ERROR_NO_RECORDS_AVAILABLE, "No records available");
+		ADD_ERROR_MESSAGE(messageData, SAMPLING_ENGINE_ERROR_INVALID_STATE, "Invalid State");
 
         initialized = true;
         }

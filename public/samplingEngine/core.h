@@ -3,10 +3,10 @@
 
 #include <samplingEngine/configuration.h>
 #include <samplingEngine/core.h>
-#include <samplingEngine/distance_record.h>
-#include <samplingEngine/record_type.h>
-#include <samplingEngine/status_record.h>
-#include <samplingEngine/time_record.h>
+#include <samplingEngine/records/distance_record.h>
+#include <samplingEngine/records/record_type.h>
+#include <samplingEngine/records/status_record.h>
+#include <samplingEngine/records/time_record.h>
 
 namespace samplingEngine
     {

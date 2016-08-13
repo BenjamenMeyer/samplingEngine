@@ -1,0 +1,18 @@
+- Current geometryEngine implementation needs to be refactored as a Time Measurement Engine
+- Measurement Engine should be setup to do: 
+  - record consumption
+  - pre-process filtering
+  - calculation
+  - post-process filtering
+  - record generation
+- A new user-defined record needs to be defined so users can delay random records, delays are based on the time index (time domain) or time index range (distance domain)
+  - This is useful so users can inject data records relevant to their processing system, ex event records, that have no bearing on the data calculations but
+    need to be preserved in the data stream accordingly.
+- Write up the Engineering description in the ENGINEERING.RST file. This should capture:
+  - overview
+  - purpose
+  - concept of operations
+  - core requirements
+  - architecture
+  - functional requirements
+  - example use cases

@@ -426,3 +426,11 @@ breathe_projects = {
    "samplingengine": "doxy/xml"
 }
 breathe_default_project = "samplingengine"
+
+# To support RTD making the doxygen data
+import os
+
+if os.environ.get('READTHEDOCS', None) == 'True':
+    print("Building Doxygen data on ReadTheDocs")
+    import subprocess
+    subprocess.call('doxygen ../src/Doxyfile', shell=True)

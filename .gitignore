@@ -6,4 +6,10 @@ CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
 build/
-docs/
+doxy/
+docs/_build/*
+
+# For RTD/Sphinx/Breathe integration...
+*env*
+.*env*
+

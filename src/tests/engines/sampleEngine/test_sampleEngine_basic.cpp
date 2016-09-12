@@ -18,6 +18,9 @@ BOOST_AUTO_TEST_SUITE( SamplingEngine );
 
 BOOST_AUTO_TEST_CASE( SamplingEngineErrorMessages )
 {
+	/*
+	 * Testing Sampling Engine Error Message Retrieval
+	 */
     std::string unknownErrorMessage = "UNKNOWN ERROR";
     for (uint32_t i = 0; i <= SAMPLING_ENGINE_ERROR_MAX; ++i)
         {
@@ -38,6 +41,9 @@ BOOST_AUTO_TEST_CASE( SamplingEngineErrorMessages )
 
 BOOST_AUTO_TEST_CASE( SamplingEngineInstantiationPublic )
 {
+	/*
+	 * Test Setting the logger returns a NULL logger by default
+	 */
     samplingEngine::samplingEngine testEngine;
     BOOST_CHECK_EQUAL(testEngine.getState(), samplingEngine::samplingEngine::SAMPLE_ENGINE_NOT_INITIALIZED);
     samplingEngine::logging::samplingEngineLogger* nullLogger = NULL;
@@ -46,6 +52,9 @@ BOOST_AUTO_TEST_CASE( SamplingEngineInstantiationPublic )
 
 BOOST_AUTO_TEST_CASE( SamplingEngineLoggerConfig )
 {
+	/*
+	 * Test Setting the logger returns the previous logger
+	 */
     samplingEngine::samplingEngine testEngine;
     testLogger newLogger;
     samplingEngine::logging::samplingEngineLogger* nullLogger = NULL;
@@ -56,6 +65,9 @@ BOOST_AUTO_TEST_CASE( SamplingEngineLoggerConfig )
 
 BOOST_AUTO_TEST_CASE( SamplingEngineLoggerConfigInstantiation )
 {
+	/*
+	 * Test setting the logger via constructor works
+	 */
     testLogger newLogger;
     samplingEngine::samplingEngine testEngine2(&newLogger);
     BOOST_CHECK_EQUAL(testEngine2.setLogger(NULL), &newLogger);
@@ -63,6 +75,9 @@ BOOST_AUTO_TEST_CASE( SamplingEngineLoggerConfigInstantiation )
 
 BOOST_AUTO_TEST_CASE( SamplingEngineInitialize )
 {
+	/*
+	 * Test the instantiation of the engine
+	 */
     testLogger newLogger;
     samplingEngine::samplingEngine testEngine3(&newLogger);
 

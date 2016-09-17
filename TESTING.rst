@@ -1,17 +1,17 @@
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
 | Tested        | Function/Pragma/Structure                                                             | File                                                   |
 +===============+=======================================================================================+========================================================+
-| No            | SAMPLING_ENGINE_MASK_ERROR_VALUE                                                      | samplingEngine/error_codes.h                           |
+| Yes           | SAMPLING_ENGINE_MASK_ERROR_VALUE                                                      | samplingEngine/error_codes.h                           |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | SAMPLING_ENGINE_IS_ERROR_CODE                                                         | samplingEngine/error_codes.h                           |
+| Yes           | SAMPLING_ENGINE_IS_ERROR_CODE                                                         | samplingEngine/error_codes.h                           |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | SAMPLING_ENGINE_GET_ERROR_CODE                                                        | samplingEngine/error_codes.h                           |
+| Yes           | SAMPLING_ENGINE_GET_ERROR_CODE                                                        | samplingEngine/error_codes.h                           |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | SAMPLING_ENGINE_MAKE_ERROR_CODE                                                       | samplingEngine/error_codes.h                           |
+| Yes           | SAMPLING_ENGINE_MAKE_ERROR_CODE                                                       | samplingEngine/error_codes.h                           |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | SAMPLING_ENGINE_MATCHES_ERROR_CODE                                                    | samplingEngine/error_codes.h                           |
+| Yes           | SAMPLING_ENGINE_MATCHES_ERROR_CODE                                                    | samplingEngine/error_codes.h                           |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | SAMPLING_ENGINE_CHECK_SUCCESS                                                         | samplingEngine/error_codes.h                           |
+| Yes           | SAMPLING_ENGINE_CHECK_SUCCESS                                                         | samplingEngine/error_codes.h                           |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
 | No            | samplingEngine::logging::samplingEngineLogger::samplingEngineLogger()                 | samplingEngine/log.h                                   |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
@@ -71,7 +71,7 @@
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
 | No            | samplingEngine::core::coreSamplingEngine::isOpen()                                    | samplingEngine/core.h                                  |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::core::coreSamplingEngine::initialize()                                | samplingEngine/core.h                                  |
+| Yes           | samplingEngine::core::coreSamplingEngine::initialize()                                | samplingEngine/core.h                                  |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
 | No            | samplingEngine::core::coreSamplingEngine::close()                                     | samplingEngine/core.h                                  |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
@@ -91,9 +91,9 @@
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
 | No            | samplingEngine::samplingEngine::~samplingEngine()                                     | samplingEngine/engine.h                                |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::samplingEngine::setLogger()                                           | samplingEngine/engine.h                                |
+| Yes           | samplingEngine::samplingEngine::setLogger()                                           | samplingEngine/engine.h                                |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::samplingEngine::getErrorMessage                                       | samplingEngine/engine.h                                |
+| Yes           | samplingEngine::samplingEngine::getErrorMessage                                       | samplingEngine/engine.h                                |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
 | No            | samplingEngine::samplingEngine::getState()                                            | samplingEngine/engine.h                                |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+

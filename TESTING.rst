@@ -13,25 +13,25 @@
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
 | Yes           | SAMPLING_ENGINE_CHECK_SUCCESS                                                         | samplingEngine/error_codes.h                           |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::logging::samplingEngineLogger::samplingEngineLogger()                 | samplingEngine/log.h                                   |
+| Yes           | samplingEngine::logging::samplingEngineLogger::samplingEngineLogger()                 | samplingEngine/log.h                                   |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
 | No            | samplingEngine::logging::samplingEngineLogger::~samplingEngineLogger()                | samplingEngine/log.h                                   |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::logging::samplingEngineLogger::emergency()                            | samplingEngine/log.h                                   |
+| Yes           | samplingEngine::logging::samplingEngineLogger::emergency()                            | samplingEngine/log.h                                   |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::logging::samplingEngineLogger::alert()                                | samplingEngine/log.h                                   |
+| Yes           | samplingEngine::logging::samplingEngineLogger::alert()                                | samplingEngine/log.h                                   |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::logging::samplingEngineLogger::critical()                             | samplingEngine/log.h                                   |
+| Yes           | samplingEngine::logging::samplingEngineLogger::critical()                             | samplingEngine/log.h                                   |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::logging::samplingEngineLogger::error()                                | samplingEngine/log.h                                   |
+| Yes           | samplingEngine::logging::samplingEngineLogger::error()                                | samplingEngine/log.h                                   |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::logging::samplingEngineLogger::warn()                                 | samplingEngine/log.h                                   |
+| Yes           | samplingEngine::logging::samplingEngineLogger::warn()                                 | samplingEngine/log.h                                   |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::logging::samplingEngineLogger::notice()                               | samplingEngine/log.h                                   |
+| Yes           | samplingEngine::logging::samplingEngineLogger::notice()                               | samplingEngine/log.h                                   |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::logging::samplingEngineLogger::info()                                 | samplingEngine/log.h                                   |
+| Yes           | samplingEngine::logging::samplingEngineLogger::info()                                 | samplingEngine/log.h                                   |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::logging::samplingEngineLogger::debug()                                | samplingEngine/log.h                                   |
+| Yes           | samplingEngine::logging::samplingEngineLogger::debug()                                | samplingEngine/log.h                                   |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
 | No            | samplingEngine::queues::record_container                                              | samplingEngine/record_queues.h                         |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+

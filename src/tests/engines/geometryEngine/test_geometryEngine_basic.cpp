@@ -1,6 +1,6 @@
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MAIN
-#define BOOST_TEST_MODULE SamplingEngineTest
+#define BOOST_TEST_NO_MAIN
+
 #include <boost/test/unit_test.hpp>
 
 #include <samplingEngineInternal/geometricEngine/engine.h>

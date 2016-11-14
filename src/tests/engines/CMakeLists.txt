@@ -1,2 +1,3 @@
 ADD_SUBDIRECTORY(geometryEngine)
 ADD_SUBDIRECTORY(sampleEngine)
+ADD_SUBDIRECTORY(core)

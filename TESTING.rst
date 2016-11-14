@@ -63,29 +63,29 @@
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
 | n/a           | samplingEngine::records::distance_record                                              | samplingEngine/records/distance_record.h               |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::core::coreSamplingEngine::coreSamplingEngine                          | samplingEngine/core.h                                  |
+| Yes           | samplingEngine::core::coreSamplingEngine::coreSamplingEngine                          | samplingEngine/core.h                                  |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::core::coreSamplingEngine::~coreSamplingEngine                         | samplingEngine/core.h                                  |
+| Yes           | samplingEngine::core::coreSamplingEngine::~coreSamplingEngine                         | samplingEngine/core.h                                  |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::core::coreSamplingEngine::open()                                      | samplingEngine/core.h                                  |
+| Yes (iface)   | samplingEngine::core::coreSamplingEngine::open()                                      | samplingEngine/core.h                                  |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::core::coreSamplingEngine::isOpen()                                    | samplingEngine/core.h                                  |
+| Yes (iface)   | samplingEngine::core::coreSamplingEngine::isOpen()                                    | samplingEngine/core.h                                  |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| Yes           | samplingEngine::core::coreSamplingEngine::initialize()                                | samplingEngine/core.h                                  |
+| Yes (iface)   | samplingEngine::core::coreSamplingEngine::initialize()                                | samplingEngine/core.h                                  |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::core::coreSamplingEngine::close()                                     | samplingEngine/core.h                                  |
+| Yes (iface)   | samplingEngine::core::coreSamplingEngine::close()                                     | samplingEngine/core.h                                  |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::core::coreSamplingEngine::processRecord()                             | samplingEngine/core.h                                  |
+| Yes (iface)   | samplingEngine::core::coreSamplingEngine::processRecord()                             | samplingEngine/core.h                                  |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::core::coreSamplingEngine::getTimeRecordType()                         | samplingEngine/core.h                                  |
+| Yes (iface)   | samplingEngine::core::coreSamplingEngine::getTimeRecordType()                         | samplingEngine/core.h                                  |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::core::coreSamplingEngine::getDistanceRecordType()                     | samplingEngine/core.h                                  |
+| Yes (iface)   | samplingEngine::core::coreSamplingEngine::getDistanceRecordType()                     | samplingEngine/core.h                                  |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::core::coreSamplingEngine::getDataRecord()                             | samplingEngine/core.h                                  |
+| Yes (iface)   | samplingEngine::core::coreSamplingEngine::getDataRecord()                             | samplingEngine/core.h                                  |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::core::coreSamplingEngine::getStatusRecord()                           | samplingEngine/core.h                                  |
+| Yes (iface)   | samplingEngine::core::coreSamplingEngine::getStatusRecord()                           | samplingEngine/core.h                                  |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::core::coreSamplingEngine::getTimeRecord()                             | samplingEngine/core.h                                  |
+| Yes (iface)   | samplingEngine::core::coreSamplingEngine::getTimeRecord()                             | samplingEngine/core.h                                  |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
 | No            | samplingEngine::samplingEngine::samplingEngine()                                      | samplingEngine/engine.h                                |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+

@@ -177,10 +177,10 @@ namespace samplingEngine
 
          Example: 99.125 * 1000 -> 99125
          */
-        template <class T>
-        inline T NORMALIZED_TO_SCALAR(T d, T f)
+        template <class T, class T2>
+        inline T2 NORMALIZED_TO_SCALAR(T normalized, T2 scale)
             {
-            return T(d*f);
+            return T2(normalized*scale);
             }
 
         //! Scalar Data to Normalized Data
@@ -189,10 +189,10 @@ namespace samplingEngine
 
          Example: 99125 / 1000 -> 99.125
          */
-        template <class T>
-        inline T SCALAR_TO_NORMALIZED(T d, T f)
+        template <class T, class T2>
+        inline T SCALAR_TO_NORMALIZED(T2 scalar, T2 scale, const T ignored)
             {
-            return T(d/f);
+            return T(scalar)/T(scale);
             }
         }
     }

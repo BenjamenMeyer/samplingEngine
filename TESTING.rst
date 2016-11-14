@@ -33,35 +33,35 @@
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
 | Yes           | samplingEngine::logging::samplingEngineLogger::debug()                                | samplingEngine/log.h                                   |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::queues::record_container                                              | samplingEngine/record_queues.h                         |
+| n/a           | samplingEngine::queues::record_container                                              | samplingEngine/record_queues.h                         |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::queues::record_queue                                                  | samplingEngine/record_queues.h                         |
+| n/a (STL)     | samplingEngine::queues::record_queue                                                  | samplingEngine/record_queues.h                         |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::config::tachometerConfiguration                                       | samplingEngine/configuration.h                         |
+| n/a           | samplingEngine::config::tachometerConfiguration                                       | samplingEngine/configuration.h                         |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::config::sampleConfiguration                                           | samplingEngine/configuration.h                         |
+| n/a           | samplingEngine::config::sampleConfiguration                                           | samplingEngine/configuration.h                         |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::config::sensorConfiguration                                           | samplingEngine/configuration.h                         |
+| n/a           | samplingEngine::config::sensorConfiguration                                           | samplingEngine/configuration.h                         |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::config::engineConfiguration                                           | samplingEngine/configuration.h                         |
+| n/a           | samplingEngine::config::engineConfiguration                                           | samplingEngine/configuration.h                         |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::channels::channel_config                                              | samplingEngine/channels/channel.h                      |
+| n/a           | samplingEngine::channels::channel_config                                              | samplingEngine/channels/channel.h                      |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::channels::channelList                                                 | samplingEngine/channels/channel.h                      |
+| n/a (STL)     | samplingEngine::channels::channelList                                                 | samplingEngine/channels/channel.h                      |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::channels::NORMALIZED_TO_SCALAR (int, float, etc)                      | samplingEngine/channels/channel.h                      |
+| Yes           | samplingEngine::channels::NORMALIZED_TO_SCALAR (int, float, etc)                      | samplingEngine/channels/channel.h                      |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::channels::SCALAR_TO_NORMALIZED (int, float, etc)                      | samplingEngine/channels/channel.h                      |
+| Yes           | samplingEngine::channels::SCALAR_TO_NORMALIZED (int, float, etc)                      | samplingEngine/channels/channel.h                      |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::records::status_record_entry                                          | samplingEngine/records/status_record.h                 |
+| n/a           | samplingEngine::records::status_record_entry                                          | samplingEngine/records/status_record.h                 |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::records::status_record                                                | samplingEngine/records/status_record.h                 |
+| n/a           | samplingEngine::records::status_record                                                | samplingEngine/records/status_record.h                 |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::records::time_record                                                  | samplingEngine/records/time_record.h                   |
+| n/a           | samplingEngine::records::time_record                                                  | samplingEngine/records/time_record.h                   |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::records::time_indexes                                                 | samplingEngine/records/distance_record.h               |
+| n/a           | samplingEngine::records::time_indexes                                                 | samplingEngine/records/distance_record.h               |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::records::distance_record                                              | samplingEngine/records/distance_record.h               |
+| n/a           | samplingEngine::records::distance_record                                              | samplingEngine/records/distance_record.h               |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
 | No            | samplingEngine::core::coreSamplingEngine::coreSamplingEngine                          | samplingEngine/core.h                                  |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+

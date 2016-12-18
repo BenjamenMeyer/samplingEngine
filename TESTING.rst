@@ -87,7 +87,7 @@
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
 | Yes (iface)   | samplingEngine::core::coreSamplingEngine::getTimeRecord()                             | samplingEngine/core.h                                  |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::samplingEngine::samplingEngine()                                      | samplingEngine/engine.h                                |
+| Yes           | samplingEngine::samplingEngine::samplingEngine()                                      | samplingEngine/engine.h                                |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
 | No            | samplingEngine::samplingEngine::~samplingEngine()                                     | samplingEngine/engine.h                                |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
@@ -95,7 +95,7 @@
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
 | Yes           | samplingEngine::samplingEngine::getErrorMessage                                       | samplingEngine/engine.h                                |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::samplingEngine::getState()                                            | samplingEngine/engine.h                                |
+| Yes           | samplingEngine::samplingEngine::getState()                                            | samplingEngine/engine.h                                |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
 | No            | samplingEngine::samplingEngine::initialize()                                          | samplingEngine/engine.h                                |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
@@ -115,13 +115,13 @@
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
 | No            | samplingEngine::samplingEngine::getTimeRecord()                                       | samplingEngine/engine.h                                |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::samplingEngine::setState()                                            | samplingEngine/engine.h                                |
+| Yes           | samplingEngine::samplingEngine::setState()                                            | samplingEngine/engine.h                                |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::samplingEngine::enableState()                                         | samplingEngine/engine.h                                |
+| Yes           | samplingEngine::samplingEngine::enableState()                                         | samplingEngine/engine.h                                |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::samplingEngine::disableState()                                        | samplingEngine/engine.h                                |
+| Yes           | samplingEngine::samplingEngine::disableState()                                        | samplingEngine/engine.h                                |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
-| No            | samplingEngine::samplingEngine::isStateSet()                                          | samplingEngine/engine.h                                |
+| Yes           | samplingEngine::samplingEngine::isStateSet()                                          | samplingEngine/engine.h                                |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+
 | No            | geometricEngine::geometricEngine::geometricEngine()                                   | samplingEngineInternal/geometricEngine/engine.h        |
 +---------------+---------------------------------------------------------------------------------------+--------------------------------------------------------+

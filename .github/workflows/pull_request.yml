@@ -9,13 +9,13 @@ jobs:
        matrix:
          include:
            - COMPILER_SUITE: gcc
-             C_COMPILER_VERSION: gcc-10.1
-             CXX_COMPILER_VERSION: g++-10.1
-             COMPILER_PACKAGE: g++-10.1
+             C_COMPILER_VERSION: gcc
+             CXX_COMPILER_VERSION: g++
+             COMPILER_PACKAGE: g++
            - COMPILER_SUITE: clang
-             C_COMPILER_VERSION: clang-3.9
-             CXX_COMPILER_VERSION: clang++-3.9
-             COMPILER_PACKAGE: clang-3.9
+             C_COMPILER_VERSION: clang
+             CXX_COMPILER_VERSION: clang++
+             COMPILER_PACKAGE: clang
      steps:
        - name: Checkout Repository
          uses: actions/checkout@v2

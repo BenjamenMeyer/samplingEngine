@@ -4,7 +4,6 @@ jobs:
   build:
      name: Build 
      runs-on: ubuntu-18.04 
-       shell: bash
      strategy:
        fail-fast: true
        matrix:

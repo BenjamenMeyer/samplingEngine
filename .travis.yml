@@ -64,7 +64,7 @@ script:
   - mkdir build
   - cd build
   - cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=`which ${C_COMPILER}` -DCMAKE_CXX_COMPILER=`which ${CXX_COMPILER}` ../src
-  - if [ "${CC}" == "gcc" ]; then make coverage && coveralls --exclude lib --exclude tests --gcov-options '\-lpr'; else make && make test; fi
-
-after_success:
-  - if [ "${CC}" == "gcc" ]; then coveralls --exclude lib --exclude tests --gcov-options '\-lpr'; fi
+#  - if [ "${CC}" == "gcc" ]; then make coverage && coveralls --exclude lib --exclude tests --gcov-options '\-lpr'; else make && make test; fi
+#
+#after_success:
+#  - if [ "${CC}" == "gcc" ]; then coveralls --exclude lib --exclude tests --gcov-options '\-lpr'; fi

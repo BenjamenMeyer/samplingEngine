@@ -4,6 +4,7 @@ jobs:
   build:
      name: Build 
      runs-on: ubuntu-18.04 
+       shell: bash
      strategy:
        fail-fast: true
        matrix:
@@ -30,11 +31,12 @@ jobs:
        #  if: ${{ matrix.COMPILER_SUITE }} == "gcc"
        - name: create build directory
          run: mkdir build
-       - name: Build
+       - name: Configure Build
          env:
            C_COMPILER: ${{ matrix.C_COMPILER_VERSION }}
            CXX_COMPILER: ${{ matrix.CXX_COMPILER_VERSION }}
-         run: cd build && cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=`which ${C_COMPILER}` -DCMAKE_CXX_COMPILER=`which ${CXX_COMPILER}` ../src 
+         run: cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=`which ${C_COMPILER}` -DCMAKE_CXX_COMPILER=`which ${CXX_COMPILER}` ../src 
+         working-directory: ./build
        # Disable as it's not finding Coveralls
        #- name: Build with Coverage (GCC compilers only)
        #  run: make coverage && coveralls --exclude lib --exclude tests --gcov-options '\-lpr'
@@ -43,14 +45,13 @@ jobs:
        #  if: ${{ matrix.COMPILER_SUITE }} == "gcc"
        - name: Build without Coverage (GCC compilers only)
          run: make && make test 
-           shell: bash
-           working-directory: ./build
+         working-directory: ./build
          if: ${{ matrix.COMPILER_SUITE }} == "gcc"
        - name: Build without Coverage (non-GCC compilers)
          run: make && make test
-           shell: bash
-           working-directory: ./build
+         working-directory: ./build
          if: ${{ matrix.COMPILER_SUITE }} != "gcc"
        #- name: Post Coveralls Data
        #  run: coveralls --exclude lib --exclude tests --gcov-options '\-lpr'
+       #  working-directory: ./build
        #  if: ${{ matrix.COMPILER_SUITE }} == "gcc"

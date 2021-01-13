@@ -8,9 +8,6 @@ jobs:
        fail-fast: true
        matrix:
          COMPILER_SUITE: [gcc, clang]
-         C_COMPILER_VERSION:
-         CXX_COMPILER_VERSION:
-         COMPILER_PACKAGE:
          include:
            - COMPILER_SUITE: gcc
              C_COMPILER_VERSION: gcc-4.8

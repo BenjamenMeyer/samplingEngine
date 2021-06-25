@@ -2,7 +2,7 @@
 # RTD is supported via sphinx+breathe
 # Sphinx's breathe extension is used to read the Doxygen XML data
 Babel==2.3.4
-Jinja2==2.8
+Jinja2==2.11.3
 MarkupSafe==0.23
 Pygments==2.7.4
 Sphinx==1.4.5

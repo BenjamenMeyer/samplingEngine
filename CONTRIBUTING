@@ -18,4 +18,18 @@ to have here. Anything more complex should have its interface
 defined in the headers, and an implementation defined under 'src'.
 
 The source is included under 'src'. All implementation could must
-go here.
+go here. Implementation files that are not tests must not have the
+term 'tests' in their name or path. They will be excluded from the
+standard build.
+
+There is a goal of 100% testing - unit, functional, and integration.
+All tests live under 'src/test'. If there is any functionality that
+is *not* tested, then please make sure to add it to the TESTING.rst
+file so that it can be tracked. The codebase will be periodically
+audited in order to validate the test coverage. Something is only
+considered tested if it is *directly* tested - e.g there is a unit
+test that covers it.
+
+As a general rule, class destructors are exempt from explicit testing.
+However, one should ensure that they are covered via indirect testing
+where possible.

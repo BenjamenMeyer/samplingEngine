@@ -1,7 +1,7 @@
 # Support for Read The Docs document generation
 # RTD is supported via sphinx+breathe
 # Sphinx's breathe extension is used to read the Doxygen XML data
-Babel==2.3.4
+Babel==2.9.1
 Jinja2==2.11.3
 MarkupSafe==0.23
 Pygments==2.7.4

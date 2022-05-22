@@ -3,6 +3,9 @@
 
 #include <stdint.h>
 
+#include <map>
+#include <string>
+
 #include <samplingEngine/channels/time_channels.h>
 #include <samplingEngine/channels/distance_channels.h>
 #include <samplingEngine/channels/channel.h>
@@ -119,6 +122,22 @@ namespace samplingEngine
             ENGINE_CALIBRATION_OPERATION /*!< Measurement Calibration Mode */
             };
 
+        //! Filter Configuration Interface
+        struct filterConfiguration
+            {
+            //! name of the filter the configuration applies to
+            std::string filterName;
+
+            //! delay to align the filter value appropriately against other records
+            /*!
+                A positive value moves back in time/distance
+                A negative value moves forward in time/distance
+                Default is zero, no delay
+             */
+            int32_t delay;
+            };
+        typedef std::map<std::string, struct filterConfiguration*> filterConfigurations;
+
         //! Sampling Engine Configuration
         /*!
          The complete set of configuration data for the sampling engine.
@@ -151,6 +170,9 @@ namespace samplingEngine
              Required if distance-based record output is configured.
              */
             samplingEngine::channels::channelList distance_channels;
+
+            //! Configuration of individual internal filters
+            samplingEngine::config::filterConfigurations filter_configs;
             };
         }
     }

@@ -196,42 +196,48 @@ int32_t samplingEngine::initialize(const struct config::engineConfiguration& _co
 
             if (SAMPLING_ENGINE_CHECK_SUCCESS(returnValue))
                 {
-                // Ready for Startup
-                enableState(SAMPLE_ENGINE_OPERATIONAL_STARTUP);
-                send_to_log(LOG_LEVEL_INFO, "Entering Sampling Engine Start-up Mode");
+                // configure the engine using the provided configuration
+                returnValue = coreEngine->open(_configuration);
 
-                // Engine State
-                switch (configuration.operationalState)
+                if (SAMPLING_ENGINE_CHECK_SUCCESS(returnValue))
                     {
-                    default:
-                        send_to_log(LOG_LEVEL_ERROR, "Unknown Operational State. Terminating");
-                        close();
-                        returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_BAD_PARAMETER);
-                        break;
+                    // Ready for Startup
+                    enableState(SAMPLE_ENGINE_OPERATIONAL_STARTUP);
+                    send_to_log(LOG_LEVEL_INFO, "Entering Sampling Engine Start-up Mode");
 
-                    case config::ENGINE_NORMAL_OPERATION:
-                        enableState(SAMPLE_ENGINE_OPERATION_MODE);
-                        send_to_log(LOG_LEVEL_INFO, "Entering Normal Operations Mode");
-                        returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
-                        break;
+                    // Engine State
+                    switch (configuration.operationalState)
+                        {
+                        default:
+                            send_to_log(LOG_LEVEL_ERROR, "Unknown Operational State. Terminating");
+                            close();
+                            returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_BAD_PARAMETER);
+                            break;
 
-                    case config::ENGINE_DIAGNOSTIC_OPERATION:
-                        enableState(SAMPLE_ENGINE_DIAGNOSTIC_MODE);
-                        send_to_log(LOG_LEVEL_INFO, "Entering Diagnostic Operations Mode");
-                        returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
-                        break;
+                        case config::ENGINE_NORMAL_OPERATION:
+                            enableState(SAMPLE_ENGINE_OPERATION_MODE);
+                            send_to_log(LOG_LEVEL_INFO, "Entering Normal Operations Mode");
+                            returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
+                            break;
 
-                    case config::ENGINE_CALIBRATION_OPERATION:
-                        enableState(SAMPLE_ENGINE_CALIBRATION_MODE);
-                        send_to_log(LOG_LEVEL_INFO, "Entering Calibration Operations Mode");
-                        returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
-                        break;
-                    };
+                        case config::ENGINE_DIAGNOSTIC_OPERATION:
+                            enableState(SAMPLE_ENGINE_DIAGNOSTIC_MODE);
+                            send_to_log(LOG_LEVEL_INFO, "Entering Diagnostic Operations Mode");
+                            returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
+                            break;
+
+                        case config::ENGINE_CALIBRATION_OPERATION:
+                            enableState(SAMPLE_ENGINE_CALIBRATION_MODE);
+                            send_to_log(LOG_LEVEL_INFO, "Entering Calibration Operations Mode");
+                            returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
+                            break;
+                        };
+                    }
                 }
            }
         else
             {
-            returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_INVALID_STATE); \
+            returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_INVALID_STATE);
             }
         }
     else

@@ -34,8 +34,8 @@ namespace samplingEngine
 
          The following table provides some examples:
 
-            HZ      Distance        Maximum Speed
-            ====    ===========     ===================
+            HZ      Distance        Maximum Speed (KPH/MPH)
+            ====    ===========     =======================
             60      250             54      /   33.75
             60      275             59.4    /   37.125
             60      300             64.8    /   40.5

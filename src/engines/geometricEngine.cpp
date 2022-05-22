@@ -1,5 +1,7 @@
 #include <samplingEngineInternal/geometricEngine/engine.h>
 #include <samplingEngine/error_codes.h>
+#include <samplingEngine/records/status_record.h>
+#include <samplingEngine/records/status_record.h>
 
 #include <stdlib.h>
 #include <string.h>
@@ -22,8 +24,9 @@ bool geometricEngine::isOpen() const
     return geometric_engine_active;
     }
 
-int32_t geometricEngine::open(const struct samplingEngine::config::engineConfiguration& _configuration)
+int32_t geometricEngine::open(const struct samplingEngine::config::engineConfiguration& /* _configuration */)
     {
+    // TODO: build out the configuration
     int32_t returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
     maximum_sample_buffering = 0;
     for (samplingEngine::interfaces::abstractFilterList::iterator iter = filters.begin(); iter != filters.end(); ++iter)
@@ -98,9 +101,9 @@ int32_t geometricEngine::addFilter(samplingEngine::interfaces::abstractFilter* _
 
     return returnValue;
     }
-int32_t geometricEngine::addInterdependentFilters(samplingEngine::interfaces::abstractFilterList& _interdependentFilters)
+int32_t geometricEngine::addInterdependentFilters(samplingEngine::interfaces::abstractFilterList& /* _interdependentFilters */)
     {
-    int32_t returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
+    int32_t returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_NOT_SUPPORTED_YET);
 
     // TODO
 
@@ -114,12 +117,15 @@ int32_t geometricEngine::processRecord(const struct samplingEngine::records::tim
 
     if (_record != NULL)
         {
+        // copy the record into the internal data so we don't need to care about what
+        // happens ot the incoming record and can use it as we like
         samplingEngine::queues::record_container new_record;
         new_record.record_data.time_record = (samplingEngine::records::time_record*) calloc(1, _record->length);
         memcpy(new_record.record_data.time_record, _record, _record->length);
         new_record.record_type = samplingEngine::records::TIME_RECORD_TYPE;
-        input_queue.push_back(new_record);
 
+        // add it to the queue and process all the records
+        input_queue.push_back(new_record);
         returnValue = process_records();
         }
     else
@@ -253,6 +259,7 @@ int32_t geometricEngine::process_records()
     {
     int32_t returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
 
+    // pull the input records and push them through the filters
     while (input_queue.size() > 0)
         {
         for (samplingEngine::interfaces::abstractFilterList::iterator iter = filters.begin(); iter != filters.end(); ++iter)
@@ -262,19 +269,19 @@ int32_t geometricEngine::process_records()
         free(input_queue.front().record_data.time_record);
         input_queue.front().record_data.time_record = NULL;
         input_queue.pop_front();
-
-        // TODO:
-        //    1. Extract data
-        //    2. Delay the data appropriately
-        //    3. Build a status record
-        //  3.1 Add to output queue
-        //    4. Build a time record
-        //    4.1 Build Record
-        //    4.2 Add to output queue
-        //    5. Build a distance record
-        //    5.1 Build Record
-        //    5.2 Add to output queue
         }
+
+    // TODO:
+    //    1. Extract data
+    //    2. Delay the data appropriately
+    //    3. Build a status record
+    //  3.1 Add to output queue
+    //    4. Build a time record
+    //    4.1 Build Record
+    //    4.2 Add to output queue
+    //    5. Build a distance record
+    //    5.1 Build Record
+    //    5.2 Add to output queue
 
     return returnValue;
     }

@@ -28,6 +28,7 @@
 #define SAMPLING_ENGINE_ERROR_DEPENDENCY_NOT_FOUND   (0x00000008) /*!< Calculation dependency not found */
 #define SAMPLING_ENGINE_ERROR_NO_RECORDS_AVAILABLE   (0x00000009) /*!< No records are currently available */
 #define SAMPLING_ENGINE_ERROR_INVALID_STATE          (0x0000000A) /*!< System is in an invalid state */
+#define SAMPLING_ENGINE_ERROR_NOT_SUPPORTED_YET      (0x0000000B) /*!< Functionality is not yet supported */
 
 #define SAMPLING_ENGINE_ERROR_MAX                    ( SAMPLING_ENGINE_ERROR_INVALID_STATE + 1) /*!< Maximum Error Value */
 

@@ -1,4 +1,4 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8.9)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.22)
 PROJECT(SamplingEngine C CXX)
 LIST(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../cmake)
 
@@ -49,3 +49,12 @@ ENDIF()
 
 ENABLE_TESTING()
 ADD_SUBDIRECTORY(tests)
+
+IF (${ENABLE_CODE_COVERAGE})
+    ADD_CUSTOM_TARGET(
+        "coverage"
+        COMMAND "gcovr -r ../ . --html-details coverage.html"
+        BYPRODUCTS "coverage.html"
+        USES_TERMINAL
+    )
+ENDIF()

@@ -1,6 +1,8 @@
 #ifndef SAMPLING_ENGINE_DISTANCE_CHANNELS_H__
 #define SAMPLING_ENGINE_DISTANCE_CHANNELS_H__
 
+#include <stdint.h>
+
 namespace samplingEngine
     {
     namespace channels
@@ -59,6 +61,11 @@ namespace samplingEngine
                 SPIN,                         /* Z-Axis Rotation (Yaw) */
                 };
             }
+
+            inline uint16_t distanceChannelToChannelType(samplingEngine::channels::distance::distanceChannels dc)
+                {
+                return static_cast<uint16_t>(dc);
+                }
         }
     }
 

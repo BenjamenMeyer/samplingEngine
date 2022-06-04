@@ -28,11 +28,15 @@ int32_t geometricEngine::open(const struct samplingEngine::config::engineConfigu
     {
     // TODO: build out the configuration
     int32_t returnValue = SAMPLING_ENGINE_MAKE_ERROR_CODE(SAMPLING_ENGINE_ERROR_SUCCESS);
-    maximum_sample_buffering = 0;
-    for (samplingEngine::interfaces::abstractFilterList::iterator iter = filters.begin(); iter != filters.end(); ++iter)
+    returnValue = channelMapper.initialize(_configuration);
+    if (SAMPLING_ENGINE_MATCHES_ERROR_CODE(returnValue, SAMPLING_ENGINE_ERROR_SUCCESS) == true)
         {
-        (*iter)->open(_configuration);
-        maximum_sample_buffering = std::max(maximum_sample_buffering, (*iter)->required_samples());
+        maximum_sample_buffering = 0;
+        for (samplingEngine::interfaces::abstractFilterList::iterator iter = filters.begin(); iter != filters.end(); ++iter)
+            {
+            (*iter)->open(_configuration);
+            maximum_sample_buffering = std::max(maximum_sample_buffering, (*iter)->required_samples());
+            }
         }
     return returnValue;
     }

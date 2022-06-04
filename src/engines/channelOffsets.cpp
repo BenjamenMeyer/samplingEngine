@@ -22,6 +22,7 @@ int32_t recordOffsetMap::initialize(const struct samplingEngine::config::engineC
         dp.offset = iter->data_offset;
         dp.length = iter->byte_count;
         dp.index = index;
+        dp.zero_on_invalid = iter->zero_on_invalid;
         timeRecords.channel[iter->channel_type] = dp;
 
         timeRecords.status[iter->channel_type] = index;
@@ -34,6 +35,7 @@ int32_t recordOffsetMap::initialize(const struct samplingEngine::config::engineC
         dp.offset = iter->data_offset;
         dp.length = iter->byte_count;
         dp.index = index;
+        dp.zero_on_invalid = iter->zero_on_invalid;
         distanceRecords.channel[iter->channel_type] = dp;
 
         distanceRecords.status[iter->channel_type] = index;

@@ -119,6 +119,15 @@ namespace samplingEngine
              */
             uint16_t factor;
 
+            //! zero channel on invalid data
+            /*!
+              Each channel has a status. It may be desirable to show data even when
+              the channel data is invalid; or it may be desireable to not show any
+              information. By default (zero_on_invalid = false), all data is sent out;
+              if zero_on_invalid is set to true, then the channel will be zero'd out.
+            */
+            bool zero_on_invalid;
+
             //! channel description
             /*!
              A string containing user information about the channel.

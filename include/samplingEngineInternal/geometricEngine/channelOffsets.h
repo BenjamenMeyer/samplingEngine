@@ -17,6 +17,7 @@ namespace geometricEngine
         size_t offset;
         size_t length;
         uint16_t index;
+        bool zero_on_invalid;
         };
 
     typedef std::map<uint16_t, struct dataPoint> offsetMapping;

@@ -12,4 +12,4 @@ docs/_build/*
 # For RTD/Sphinx/Breathe integration...
 *env*
 .*env*
-
+*cover*.html

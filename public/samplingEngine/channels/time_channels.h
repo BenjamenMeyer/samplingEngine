@@ -1,6 +1,8 @@
 #ifndef SAMPLING_ENGINE_TIME_CHANNELS_H__
 #define SAMPLING_ENGINE_TIME_CHANNELS_H__
 
+#include <stdint.h>
+
 namespace samplingEngine
     {
     namespace channels
@@ -24,7 +26,6 @@ namespace samplingEngine
                 TEST_CHANNEL_COSINE_WAVE,     /*!< Co-sine Wave Data Channel for Diagnostics */
 
                 // Basic Sensors
-                TACHOMETER,                   /*!< Tachometer, useful for Diagnostics */
                 INERTIAL_PITCH_GYRO,          /*!< Inertial Instrument's Pitch (Gyro) */
                 INERTIAL_PITCH_ACCELEROMETER, /*!< Inertial Instrument's Pitch (Accelerometer) */
                 INERTIAL_YAW_GYRO,            /*!< Inertial Instrument's Yaw (Gyro) */
@@ -37,17 +38,20 @@ namespace samplingEngine
                 TACHOMETER_ACCELERATION,      /*!< Acceleration  (Delta Tachometer Speed)*/
                 TACHOMETER_JERK,              /*!< Rate of Change of Acceleration (Delta Tachometer Acceleration) */
 
+                // X-Axis Movement
                 PITCH,                        /*!< X-Axis Rotation */
                 PITCH_VELOCITY,               /*!< Velocity of change in Pitch (Delta Pitch) */
                 PITCH_ACCELERATION,           /*!< Acceleration of Pitch (Delta Pitch Velocity) */
                 PITCH_JERK,                   /*!< Rate of Change of Pitch Acceleration (Delta Pitch Acceleration) */
 
+                // Z-Axis Movement
                 YAW,                          /*!< Z-Axis Rotation */
                 YAW_VELOCITY,                 /*!< Velocity of change in Yaw (Delta Yaw) */
                 YAW_ACCELERATION,             /*!< Acceleration of Yaw (Delta Yaw Velocity) */
                 YAW_JERK,                     /*!< Rate of Change of Yaw Acceleration (Delta Yaw Acceleration) */
 
-                ROLL,                         /*!< Z-Axis Rotation */
+                // Y-Axis Movement
+                ROLL,                         /*!< Y-Axis Rotation */
                 ROLL_VELOCITY,                /*!< Velocity of change in Roll (Delta Roll) */
                 ROLL_ACCELERATION,            /*!< Acceleration of Roll (Delta Roll Velocity) */
                 ROLL_JERK,                    /*!< Rate of Change of Roll Acceleration (Delta Roll Acceleration) */
@@ -57,6 +61,11 @@ namespace samplingEngine
                 SPIN,                         /* Z-Axis Rotation (Yaw) */
                 };
             }
+
+            inline uint16_t timeChannelToChannelType(samplingEngine::channels::time::timeChannels tc)
+                {
+                return static_cast<uint16_t>(tc);
+                }
         }
     }
 

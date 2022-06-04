@@ -1,6 +1,8 @@
 #ifndef SAMPLING_ENGINE_DISTANCE_CHANNELS_H__
 #define SAMPLING_ENGINE_DISTANCE_CHANNELS_H__
 
+#include <stdint.h>
+
 namespace samplingEngine
     {
     namespace channels
@@ -36,17 +38,20 @@ namespace samplingEngine
                 TACHOMETER_ACCELERATION,      /*!< Acceleration  (Delta Tachometer Speed)*/
                 TACHOMETER_JERK,              /*!< Rate of Change of Acceleration (Delta Tachometer Acceleration) */
 
+                // X-Axis Movement
                 PITCH,                        /*!< X-Axis Rotation */
                 PITCH_VELOCITY,               /*!< Velocity of change in Pitch (Delta Pitch) */
                 PITCH_ACCELERATION,           /*!< Acceleration of Pitch (Delta Pitch Velocity) */
                 PITCH_JERK,                   /*!< Rate of Change of Pitch Acceleration (Delta Pitch Acceleration) */
 
+                // Z-Axis Movement
                 YAW,                          /*!< Z-Axis Rotation */
                 YAW_VELOCITY,                 /*!< Velocity of change in Yaw (Delta Yaw) */
                 YAW_ACCELERATION,             /*!< Acceleration of Yaw (Delta Yaw Velocity) */
                 YAW_JERK,                     /*!< Rate of Change of Yaw Acceleration (Delta Yaw Acceleration) */
 
-                ROLL,                         /*!< Z-Axis Rotation */
+                // Y-Axis Movement
+                ROLL,                         /*!< Y-Axis Rotation */
                 ROLL_VELOCITY,                /*!< Velocity of change in Roll (Delta Roll) */
                 ROLL_ACCELERATION,            /*!< Acceleration of Roll (Delta Roll Velocity) */
                 ROLL_JERK,                    /*!< Rate of Change of Roll Acceleration (Delta Roll Acceleration) */
@@ -54,9 +59,13 @@ namespace samplingEngine
                 LONGITUDINAL,                 /* X-Axis Rotation (Pitch) */
                 LATITUDINAL,                  /* Y-Axis Rotation (Roll) */
                 SPIN,                         /* Z-Axis Rotation (Yaw) */
-
                 };
             }
+
+            inline uint16_t distanceChannelToChannelType(samplingEngine::channels::distance::distanceChannels dc)
+                {
+                return static_cast<uint16_t>(dc);
+                }
         }
     }
 

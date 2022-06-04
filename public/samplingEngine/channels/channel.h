@@ -190,7 +190,7 @@ namespace samplingEngine
          Example: 99125 / 1000 -> 99.125
          */
         template <class T, class T2>
-        inline T SCALAR_TO_NORMALIZED(T2 scalar, T2 scale, const T ignored)
+        inline T SCALAR_TO_NORMALIZED(T2 scalar, T2 scale, const T /* Type to convert to */)
             {
             return T(scalar)/T(scale);
             }

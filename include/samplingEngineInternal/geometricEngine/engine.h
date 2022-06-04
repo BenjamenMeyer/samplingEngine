@@ -6,6 +6,7 @@
 #include <samplingEngine/record_queues.h>
 
 #include <samplingEngineInternal/interfaces/abstractFilter.h>
+#include <samplingEngineInternal/geometricEngine/channelOffsets.h>
 
 namespace geometricEngine
     {
@@ -134,6 +135,8 @@ namespace geometricEngine
             virtual void cleanup_record(void*& _record) const;
 
         protected:
+            recordOffsetMap channelMapper; /*!< tool for positioning the data into the records */
+
             samplingEngine::queues::record_queue input_queue; /*!< record data provided as input */
 
             samplingEngine::interfaces::abstractFilterList filters; /*!< list of filters to apply */

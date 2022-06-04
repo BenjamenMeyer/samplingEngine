@@ -6,6 +6,8 @@
 #include <deque>
 #include <string>
 
+#include <samplingEngine/configuration.h>
+
 #include <samplingEngine/records/time_record.h>
 #include <samplingEngine/records/distance_record.h>
 #include <samplingEngine/records/status_record.h>
@@ -60,7 +62,7 @@ namespace samplingEngine
                 virtual bool isDistanceBasedFilter() const=0;
 
                 // open the filter for use
-                virtual void open()=0;
+                virtual void open(const struct config::engineConfiguration& _configuration)=0;
                 // is the filter open for use?
                 virtual bool isOpen() const=0;
 

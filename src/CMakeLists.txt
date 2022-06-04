@@ -50,11 +50,12 @@ ENDIF()
 ENABLE_TESTING()
 ADD_SUBDIRECTORY(tests)
 
-IF (${ENABLE_CODE_COVERAGE})
-    ADD_CUSTOM_TARGET(
-        "coverage"
-        COMMAND "gcovr -r ../ . --html-details coverage.html"
-        BYPRODUCTS "coverage.html"
-        USES_TERMINAL
-    )
-ENDIF()
+# Command for building the HTML webpage version of the coverage data
+#IF (${ENABLE_CODE_COVERAGE})
+#    ADD_CUSTOM_TARGET(
+#        "coverage-html"
+#        COMMAND "gcovr -r ../ . --html-details ${CMAKE_BINARY_DIR}/coverage.html"
+#        BYPRODUCTS "coverage.html"
+#        USES_TERMINAL
+#    )
+#ENDIF()

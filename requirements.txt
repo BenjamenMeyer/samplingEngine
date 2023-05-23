@@ -16,7 +16,7 @@ idna==2.10
 imagesize==0.7.1
 packaging==20.9
 pytz==2016.6.1
-requests==2.25.1
+requests==2.31.0
 six==1.10.0
 snowballstemmer==1.2.1
 urllib3==1.26.6

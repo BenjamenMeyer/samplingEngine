@@ -44,9 +44,21 @@ namespace geometricEngine
             int32_t storeTimeValue(samplingEngine::channels::distance::distanceChannels channel, struct samplingEngine::records::time_record*& _record);
             int32_t storeTimeStatusValue(samplingEngine::channels::distance::distanceChannels channel, struct samplingEngine::records::status_record*& _record);
 
+            size_t time_channel_size() const;
+            uint16_t time_channel_count() const;
+
+            size_t distance_channel_size() const;
+            uint16_t distance_channel_count() const;
+
         protected:
             struct channelOffsetMap timeRecords;
             struct channelOffsetMap distanceRecords;
+
+            uint16_t size_time_channels;
+            uint16_t count_time_channels;
+
+            size_t size_distance_channels;
+            uint16_t count_distance_channels;
         };
     }
 

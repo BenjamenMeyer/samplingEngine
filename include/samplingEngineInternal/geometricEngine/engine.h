@@ -157,6 +157,9 @@ namespace geometricEngine
             // number of distance samples necessary for all channels to be valid assuming data is
             // within the tolerances of all the filters
             uint64_t maximum_sample_buffering;
+            // the current distance record index relative to the start of the engine
+            // NOTE: this resets on `open`
+            uint64_t current_distance_record;
         };
     }
 

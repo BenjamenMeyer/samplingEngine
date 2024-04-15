@@ -80,15 +80,15 @@ namespace samplingEngine
                 virtual void processRecord(records::distance_record* _record)=0;
 
                 // output - function should update its portion of the records
-                virtual void updateRecord(const records::time_record*& _record)=0;
-                virtual void updateRecord(const records::distance_record*& _record)=0;
-                virtual void updateRecord(const records::status_record*& _record, bool timeDomain)=0;
+                virtual void updateRecord(records::time_record*& _record)=0;
+                virtual void updateRecord(records::distance_record*& _record)=0;
+                virtual void updateRecord(records::status_record*& _record, bool timeDomain)=0;
 
                 // set the current Time-based Record Input Index (start of time queue)
                 virtual void setTimeRecordInputIndex(uint64_t _input_index, size_t _data_size)=0;
 
                 // set the current Time-based Record Output Index (end of time queue)
-                virtual void setTimeRecordOutputIndex(uint64_t _input_inde, size_t _data_sizex)=0;
+                virtual void setTimeRecordOutputIndex(uint64_t _input_index, size_t _data_size)=0;
                 // set the current Distance Record Output Index
                 virtual void setDistanceRecordOutputIndex(uint64_t _input_index, size_t _data_size)=0;
 

@@ -87,6 +87,8 @@ namespace samplingEngine
              */
             uint8_t channels[1];
             };
+
+        const size_t distance_record_max_size = 0xFFFFFFFF;
         }
     }
 

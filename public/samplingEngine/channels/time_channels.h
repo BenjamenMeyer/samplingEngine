@@ -2,6 +2,7 @@
 #define SAMPLING_ENGINE_TIME_CHANNELS_H__
 
 #include <stdint.h>
+#include <deque>
 
 namespace samplingEngine
     {
@@ -59,7 +60,15 @@ namespace samplingEngine
                 LONGITUDINAL,                 /* X-Axis Rotation (Pitch) */
                 LATITUDINAL,                  /* Y-Axis Rotation (Roll) */
                 SPIN,                         /* Z-Axis Rotation (Yaw) */
+
+                // multi-tach support channels
+                MULTI_TACH_0,                 /* Multitach: Tachometer Signal 1 */
+                MULTI_TACH_1,                 /* Multitach: Tachometer Signal 2 */
+                MULTI_TACH_2,                 /* Multitach: Tachometer Signal 3 */
+                MULTI_TACH_3,                 /* Multitach: Tachometer Signal 4 */
                 };
+
+            typedef std::deque<timeChannels> timeChannelList;
             }
 
             inline uint16_t timeChannelToChannelType(samplingEngine::channels::time::timeChannels tc)

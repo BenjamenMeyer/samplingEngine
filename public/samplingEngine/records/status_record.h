@@ -89,6 +89,8 @@ namespace samplingEngine
             //! List of status entries, one for each configured channel
             struct samplingEngine::records::status_record_entry channelStatus[1];
             };
+
+        const size_t status_record_max_size = 0xFFFFFFFF;
         }
     }
 

@@ -28,7 +28,6 @@ namespace filters
             //! Constructor
             AveragingFilter()
                 {
-                length = 0;
                 }
             //! Destructor
             ~AveragingFilter()
@@ -64,7 +63,7 @@ namespace filters
                 sum += _value;
                 values.push_back(_value);
 
-                if (values.length() > length)
+                if (values.size() > length)
                     {
                     sum -= values.front();
                     values.pop_front();
@@ -94,8 +93,8 @@ namespace filters
         protected:
             typedef std::deque<T> datalist; /*!< internal type for storing the values */
 
-            size_t length; /*!< filter length */
-            T sum; /*!< Running summation of the values */
+            size_t length{0}; /*!< filter length */
+            T sum{0}; /*!< Running summation of the values */
             datalist values; /*!< listing of values being averaged. */
         };
 

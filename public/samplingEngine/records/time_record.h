@@ -48,6 +48,8 @@ namespace samplingEngine
              */
             uint8_t channels[1];
             };
+
+        const uint32_t time_record_max_size = 0xFFFFFFFF;
         }
     }
 

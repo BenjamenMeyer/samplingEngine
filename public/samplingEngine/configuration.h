@@ -25,7 +25,17 @@ namespace samplingEngine
              Calibration of the tachometer sensor data used to determine
              how much linear movement has occurred between any two samples.
              */
-            uint64_t pulses_per_meter;
+            uint64_t pulses_per_meter{0};
+            //! Enable a fake tachometer for testing
+            /*!
+             Test the system by generating a dummy tachometer value
+             */
+            bool simulate_tachometer{false};
+            bool simulator_official{false};
+            bool simulator_ascending{true};
+            uint32_t simulator_count_by{1};
+            uint32_t simulator_max{0x00FFFFFF}; // 24-bit tachometer
+            uint32_t simulator_min{0x0};
             };
 
         //! Sample Configuration
@@ -89,13 +99,13 @@ namespace samplingEngine
             /*!
              The constant number of records being provided into the engine, f.e 100 HZ.
              */
-            uint16_t time_sample_rate_hz;
+            uint16_t time_sample_rate_hz{100};
 
             //! Distance Sample Rate in Millimeters
             /*!
              The maximum distance between two distance records that the engine should generate, f.e 250 mm.
              */
-            uint16_t distance_sample_rate_mm;
+            uint16_t distance_sample_rate_mm{250};
             };
 
         //! Sensor Configuration
@@ -134,7 +144,7 @@ namespace samplingEngine
                 A negative value moves forward in time/distance
                 Default is zero, no delay
              */
-            int32_t delay;
+            int32_t delay{0};
             };
         typedef std::map<std::string, struct filterConfiguration*> filterConfigurations;
 

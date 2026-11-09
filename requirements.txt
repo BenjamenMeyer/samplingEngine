@@ -1,7 +1,7 @@
 alabaster==1.0.0
 babel==2.18.0
 breathe==4.36.0
-certifi==2026.4.22
+certifi==2026.10.18
 chardet==7.4.3
 charset-normalizer==3.4.7
 docutils==0.22.4
